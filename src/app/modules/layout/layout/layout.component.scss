@@ -1,19 +1,81 @@
 @import '../../../scss/layouts.scss';
+@import '../../../scss/colors.scss';
 
 :host {
     @include display-basic;
+    width: auto;
+    padding: 80px;
+    box-shadow: 0px 0px 82px -15px $shadow-collor inset;
+    background-image: url("../../../../assets/imgs/table.jpg");
+    background-position: center;
+    background-size: cover;
+
+    &>.cards {
+        .card {
+            height: 50px;
+
+            &#card-hearth {
+                position: fixed;
+                right: 200px;
+                top: 57px;
+                transform: rotate(45deg);
+            }
+
+            &#card-littleflower {
+                position: fixed;
+                right: 200px;
+                bottom: 57px;
+                transform: rotate(-11deg);
+            }
+
+            &#card-ballon {
+                position: fixed;
+                right: 63px;
+                bottom: 16px;
+                transform: rotate(29deg);
+            }
+
+            &#card-sword {
+                position: fixed;
+                right: 84px;
+                top: 0px;
+                transform: rotate(-65deg);
+            }
+        }
 
 
-    & > header {
-        background-color: red;
+        #people-playing {
+            height: 200px;
+            position: fixed;
+            top: 40%;
+            right: -94px;
+        }
+
+        #cards{
+            height: 200px;
+            position: fixed;
+        }
     }
 
-    & > main {
-        background-color: blue;
+    &>main.container-layout {
+        @include display-basic;
+        box-shadow: 0px 30px 30px -2px transparentize($color: darken($color: $shadow-collor, $amount: 100), $amount: 0);
+        border-radius: 28px;
+        background-color: $white;
+        overflow: hidden;
+
+        &>header {
+            height: 80px;
+        }
+
+        &>main {
+            height: calc(100% - (80px + 40px));
+        }
+
+        &>footer {
+            height: 40px;
+        }
     }
 
-    & > footer {
-        background-color: green;
-    }
 
 }
