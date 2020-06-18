@@ -1,0 +1,5 @@
+@import './scss/layouts.scss';
+
+:host {
+    @include display-basic
+}
