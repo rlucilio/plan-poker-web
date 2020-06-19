@@ -43,7 +43,7 @@
             }
         }
 
-        #cards{
+        #cards {
             height: 200px;
             position: fixed;
         }
@@ -62,6 +62,8 @@
 
         &>main {
             height: calc(100% - (60px + 30px));
+            display: flex;
+            width: 100%;
         }
 
         &>footer {

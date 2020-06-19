@@ -1,5 +1,6 @@
 
 @import '../../../scss/layouts.scss';
+@import '../../../scss/btns.scss';
 
 :host {
     @include display-basic;
@@ -10,6 +11,7 @@
     & > .social {
         img.git {
             height: 25px;
+            @include img-btn();
         }
     }
 
