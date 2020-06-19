@@ -43,14 +43,6 @@
             }
         }
 
-
-        #people-playing {
-            height: 200px;
-            position: fixed;
-            top: 40%;
-            right: -94px;
-        }
-
         #cards{
             height: 200px;
             position: fixed;
@@ -65,15 +57,15 @@
         overflow: hidden;
 
         &>header {
-            height: 80px;
+            height: 60px;
         }
 
         &>main {
-            height: calc(100% - (80px + 40px));
+            height: calc(100% - (60px + 30px));
         }
 
         &>footer {
-            height: 40px;
+            height: 30px;
         }
     }
 

@@ -1,0 +1,22 @@
+
+@import '../../../scss/layouts.scss';
+
+:host {
+    @include display-basic;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    & > .social {
+        img.git {
+            height: 25px;
+        }
+    }
+
+    & > .info {
+        p {
+            margin: 0;
+            font-size: 16px;
+        }
+    }
+}
