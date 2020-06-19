@@ -1,4 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import './app/scss/colors.scss';
+@include mat-core();
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+$poker-app-primary: mat-palette($pallet-collors-primary);
+$poker-app-accent:  mat-palette($pallet-collors-secondary, A200, A100, A400);
+$poker-app-warn:    mat-palette($mat-red);
+$poker-app-theme: mat-light-theme($poker-app-primary, $poker-app-accent, $poker-app-warn);
+@include angular-material-theme($poker-app-theme);

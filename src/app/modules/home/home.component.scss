@@ -1,0 +1,37 @@
+@import '../../scss/layouts.scss';
+@import '../../scss/colors.scss';
+
+:host {
+    @include display-basic;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    &>.session {
+        .header-session .title {
+            padding: 1px;
+        }
+
+        .main-session form.form-session {
+            padding: 1px;
+        }
+
+        .footer-session {
+            padding: 1px;
+
+            .btn-create {
+                padding: 1px;
+
+            }
+
+            .btn-entrar {
+                padding: 1px;
+
+            }
+        }
+    }
+
+    &>.imgs img {
+        height: 250px;
+    }
+}

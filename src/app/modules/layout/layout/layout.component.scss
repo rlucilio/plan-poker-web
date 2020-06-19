@@ -12,41 +12,42 @@
 
     &>.cards {
         .card {
-            height: 50px;
+            height: 60px;
 
-            &#card-hearth {
+            &.card-hearth {
                 position: fixed;
                 right: 200px;
-                top: 57px;
+                top: 257px;
                 transform: rotate(45deg);
             }
 
-            &#card-littleflower {
+            &.card-littleflower {
                 position: fixed;
                 right: 200px;
                 bottom: 57px;
                 transform: rotate(-11deg);
             }
 
-            &#card-ballon {
+            &.card-ballon {
                 position: fixed;
                 right: 63px;
-                bottom: 16px;
+                bottom: 250px;
                 transform: rotate(29deg);
             }
 
-            &#card-sword {
+            &.card-sword {
                 position: fixed;
                 right: 84px;
-                top: 0px;
+                top: 50px;
                 transform: rotate(-65deg);
             }
-        }
 
-        #cards {
+        }
+        .card-all {
             height: 200px;
             position: fixed;
         }
+
     }
 
     &>main.container-layout {
