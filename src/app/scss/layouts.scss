@@ -5,3 +5,8 @@
     flex-direction: column;
     justify-content: center;
 }
+
+@mixin display-flex-basic {
+    display: flex;
+    flex-direction: column;
+}
