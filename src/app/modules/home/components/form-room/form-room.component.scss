@@ -1,0 +1,28 @@
+@import '../../../../scss/layouts.scss';
+@import '../../../../scss/colors.scss';
+:host {
+    & > .header-session .title {
+        font-size: 24px;
+    }
+
+    & > .main-session {
+
+        form.form-session {
+            display: flex;
+            flex-direction: column;
+
+            .input {
+                margin: 8px;
+            }
+        }
+
+        .footer-session {
+            display: flex;
+            flex-direction: column;
+
+            button {
+                margin: 8px;
+            }
+        }
+    }
+}

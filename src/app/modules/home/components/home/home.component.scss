@@ -1,0 +1,24 @@
+@import '../../../../scss/layouts.scss';
+@import '../../../../scss/colors.scss';
+
+:host {
+    @include display-basic;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    &>.session {
+        @include display-basic;
+        width: 50%;
+        align-items: center;
+    }
+
+    &>.imgs {
+        @include display-basic;
+        width: 50%;
+
+        img {
+            height: 250px;
+        }
+    }
+}
