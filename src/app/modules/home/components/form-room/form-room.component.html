@@ -6,23 +6,24 @@
 
 <main class="main-session">
     <main class="main-inputs">
-        <form class="form-session">
+        <form class="form-session" [formGroup]="formRoom">
 
             <mat-form-field class="input">
                 <mat-label>Nick</mat-label>
-                <input matInput placeholder="fala 300">
+                <input matInput placeholder="fala 300" formControlName="user">
             </mat-form-field>
 
             <mat-form-field class="input">
                 <mat-label>Nome da sala</mat-label>
-                <input matInput placeholder="sprint 10">
+                <input matInput placeholder="sprint 10" formControlName="room">
             </mat-form-field>
 
         </form>
     </main>
 
     <footer class="footer-session">
-        <button mat-raised-button class="btn-create" color="primary">Criar</button>
-        <button mat-raised-button class="btn-enter" color="primary">Entrar</button>
+        <button mat-raised-button class="btn-create" [disabled]="!formRoom.valid" (click)="createRoom()" color="primary">Criar</button>
+        <button mat-raised-button class="btn-enter" [disabled]="!formRoom.valid" (click)="enterRoom()" color="primary">Entrar</button>
     </footer>
 </main>
+
