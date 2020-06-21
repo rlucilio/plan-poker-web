@@ -1,9 +1,10 @@
 export const environment = {
   production: true,
   room_api: {
-    base_path: 'http:localhotst:3000',
+    base_path: 'http://localhost:3000',
     entrypoints: {
-      create_room: '/session'
+      create_room: '/session',
+      find_room: '/session/find'
     }
   }
 };

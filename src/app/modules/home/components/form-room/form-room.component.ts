@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateRoomUsecaseService } from '../../services/create-room/usecase/create-room.usecase.service';
+import { CreateRoomUsecaseService } from '../../services/room/usecase/create-room.usecase.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-room',
@@ -12,7 +13,8 @@ export class FormRoomComponent implements OnInit {
 
   constructor(
     private createRoomUsecase: CreateRoomUsecaseService,
-    private formBuider: FormBuilder
+    private formBuider: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -26,7 +28,11 @@ export class FormRoomComponent implements OnInit {
     this.createRoomUsecase.execute({
       nameOwner: this.formRoom.get('user').value,
       nameRoom: this.formRoom.get('room').value,
-    }).subscribe(result => console.log(result));
+    }).subscribe(result => {
+      if (result.room) {
+        this.router.navigate(['/room', result.room]);
+      }
+    });
   }
 
   enterRoom() {

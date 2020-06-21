@@ -15,13 +15,13 @@ export class CreateRoomUsecaseService {
     private roomGateway: RoomGatewayService
   ) { }
 
-  execute(createRoomModel: ICreateRoomModel): Observable<{create: boolean}> {
+  execute(createRoomModel: ICreateRoomModel): Observable<{room: string}> {
     return this.roomGateway.createRoom({
       name: createRoomModel.nameRoom,
       owner: createRoomModel.nameOwner
     }).pipe(
       tap(response => localStorage.setItem('room', JSON.stringify(response))),
-      map(() => ({create: true}))
+      map(response => ({room: response.name}))
     );
   }
 }

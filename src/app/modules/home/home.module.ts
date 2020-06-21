@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormRoomComponent } from './components/form-room/form-room.component';
 import { RoomGatewayService } from 'src/app/shared/services/room-gateway/room-gateway.service';
-import { CreateRoomUsecaseService } from './services/create-room/usecase/create-room.usecase.service';
+import { CreateRoomUsecaseService } from './services/room/usecase/create-room.usecase.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
