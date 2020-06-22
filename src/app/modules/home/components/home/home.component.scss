@@ -3,9 +3,6 @@
 
 :host {
     @include display-basic;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
 
     &>.session {
         @include display-basic;

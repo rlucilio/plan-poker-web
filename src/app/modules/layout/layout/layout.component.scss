@@ -16,61 +16,47 @@
 
             &.card-hearth {
                 position: fixed;
-                right: 200px;
-                top: 158px;
-                transform: rotate(45deg);
+                right: 0px;
+                top: 0px;
+                transform: rotate(-47deg);
             }
 
             &.card-littleflower {
                 position: fixed;
-                right: 200px;
-                bottom: 57px;
-                transform: rotate(-11deg);
+                left: 0;
+                bottom: 0;
+                transform: rotate(38deg);
             }
 
             &.card-ballon {
                 position: fixed;
-                right: 63px;
-                bottom: 139px;
-                transform: rotate(29deg);
+                right: 0;
+                bottom: 0;
+                transform: rotate(-10deg);
             }
 
             &.card-sword {
                 position: fixed;
-                right: 84px;
-                top: 50px;
-                transform: rotate(-65deg);
+                left: 0;
+                top: 0;
+                transform: rotate(13deg);
             }
 
         }
+
         .card-all {
             height: 200px;
             position: fixed;
+            left: 45%;
+            bottom: -91px;
         }
 
     }
 
     &>main.container-layout {
-        @include display-basic;
-        box-shadow: 0px 30px 30px -2px transparentize($color: darken($color: $shadow-collor, $amount: 100), $amount: 0);
-        border-radius: 28px;
-        background-color: $white;
-        overflow: hidden;
-
-        &>header {
-            height: 60px;
-        }
-
         &>main {
-            height: calc(100% - (60px + 30px));
-            display: flex;
+            height: 100%;
             width: 100%;
         }
-
-        &>footer {
-            height: 30px;
-        }
     }
-
-
 }
