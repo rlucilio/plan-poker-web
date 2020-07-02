@@ -1,5 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;1,100&display=swap');
 
-@mixin font-title {
-    font-family: 'Amatic SC', cursive;
+@mixin typography {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        margin: 0;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    body {
+        font-family: 'Poppins', 'Segoe UI', sans-serif;
+    }
 }
