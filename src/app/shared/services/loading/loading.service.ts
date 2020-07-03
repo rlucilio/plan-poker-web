@@ -10,6 +10,7 @@ import { timer } from 'rxjs';
 })
 export class LoadingService {
   private loading: HTMLElement;
+  private app: HTMLElement;
   constructor(
     private animationBuilder: AnimationBuilder,
     @Inject(DOCUMENT) private document: HTMLDocument,
@@ -20,6 +21,7 @@ export class LoadingService {
 
   private init() {
     this.loading = this.document.querySelector('loading-init');
+    this.app = this.document.querySelector('app-root');
 
     if (this.loading) {
       this.router.events.pipe(
@@ -30,28 +32,38 @@ export class LoadingService {
   }
 
   show() {
-    this.animationBuilder.build([
+
+    const animation = this.animationBuilder.build([
       style({
         opacity: '0',
-        display: 'none'
       }),
       animate('500ms ease', style({
         opacity: '1',
-        display: 'flex'
       }))
-    ]).create(this.loading).play();
+    ]).create(this.loading);
+
+    animation.play();
+    animation.onStart(() => {
+      this.loading.style.display = 'flex';
+      this.loading.querySelector('.label > p').classList.add('.enter-focus-animate');
+    });
   }
 
   hide() {
-    this.animationBuilder.build([
+    const animation = this.animationBuilder.build([
       style({
-        opacity: '1',
-        display: 'flex'
+        opacity: '1'
       }),
       animate('500ms ease', style({
-        opacity: '0',
-        display: 'none'
+        opacity: '0'
       }))
-    ]).create(this.loading).play();
+    ]).create(this.loading);
+
+    animation.play();
+
+    animation.onDone(() => {
+      this.loading.querySelector('.enter-focus-animate').classList.remove('.enter-focus-animate');
+      this.loading.style.display = 'none';
+    });
   }
 }

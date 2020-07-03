@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;1,100&display=swap');
+@import './colors.scss';
 
 @mixin typography {
 
@@ -15,6 +16,19 @@
 
     p {
         font-size: 16px;
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .text-title {
+        font-family: 'Rock Salt', cursive;
+        color: map-get($map: $pallet-collors-primary, $key: 500);
+        & > span {
+            color: map-get($map: $pallet-collors-secondary, $key: 500);
+        }
     }
 
     .text-center {

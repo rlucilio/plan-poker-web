@@ -1,0 +1,39 @@
+<header class="header">
+    <section class="logo">
+        <img src="../../../../../assets/imgs/logo.svg">
+    </section>
+    <section class="title">
+        <h1 class="text-title">Planning<span>Poker</span></h1>
+    </section>
+</header>
+
+<main class="main-form">
+    <form>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Placeholder">
+            <mat-icon matSuffix>person_pin</mat-icon>
+            <mat-hint>Nome de identificação</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Nome da sala</mat-label>
+            <input matInput placeholder="Placeholder">
+            <mat-icon matSuffix>style</mat-icon>
+            <mat-hint>Nome da sala</mat-hint>
+        </mat-form-field>
+
+    </form>
+</main>
+
+<footer class="footer-buttons">
+    <section class="btns">
+        <button mat-stroked-button color="accent">Observar</button>
+        <button mat-flat-button color="primary">Entrar</button>
+    </section>
+
+    <section class="btn">
+        <a [routerLink]="[ '/home/create' ]" mat-button color="primary">Criar Sala</a>
+    </section>
+</footer>
