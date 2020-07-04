@@ -10,8 +10,10 @@
     h4,
     h5,
     h6,
-    p {
+    p{
         margin: 0;
+        color: map-get($map: $pallet-collors-primary, $key: 50);
+
     }
 
     p {
@@ -26,7 +28,8 @@
     .text-title {
         font-family: 'Rock Salt', cursive;
         color: map-get($map: $pallet-collors-primary, $key: 500);
-        & > span {
+
+        &>span {
             color: map-get($map: $pallet-collors-secondary, $key: 500);
         }
     }
@@ -46,4 +49,24 @@
     body {
         font-family: 'Poppins', 'Segoe UI', sans-serif;
     }
+
+    // mat-form-field.mat-form-field.ng-tns-c4-3.mat-primary.mat-form-field-type-mat-input.mat-form-field-appearance-standard.mat-form-field-can-float.mat-form-field-has-label.mat-form-field-hide-placeholder > div > div.mat-form-field-flex > div.mat-form-field-infix > input {
+    //     color: map-get($map: $pallet-collors-primary, $key: 50);
+    // }
+
+    // mat-icon {
+    //     color: map-get($map: $pallet-collors-primary, $key: 50);
+    // }
+
+    // mat-slide-toggle > label > span {
+    //     color: map-get($map: $pallet-collors-primary, $key: 50);
+    // }
+
+    // mat-step-header > div.mat-step-label.mat-step-label-active.mat-step-label-selected {
+    //     color: map-get($map: $pallet-collors-primary, $key: 50);
+    // }
+
+    // mat-form-field mat-hint {
+    //     color: map-get($map: $pallet-collors-primary, $key: 50);
+    // }
 }

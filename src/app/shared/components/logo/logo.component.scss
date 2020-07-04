@@ -1,0 +1,12 @@
+:host {
+    &>.logo-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &>.title {
+            transform: translateY(-46px) rotateZ(12deg);
+        }
+    }
+}

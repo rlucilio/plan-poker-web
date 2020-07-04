@@ -36,9 +36,11 @@ export class LoadingService {
     const animation = this.animationBuilder.build([
       style({
         opacity: '0',
+        'z-index': -1
       }),
       animate('500ms ease', style({
         opacity: '1',
+        'z-index': 999999
       }))
     ]).create(this.loading);
 
@@ -52,10 +54,12 @@ export class LoadingService {
   hide() {
     const animation = this.animationBuilder.build([
       style({
-        opacity: '1'
+        opacity: '1',
+        'z-index': 999999
       }),
       animate('500ms ease', style({
-        opacity: '0'
+        opacity: '0',
+        'z-index': -1
       }))
     ]).create(this.loading);
 

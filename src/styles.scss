@@ -17,7 +17,7 @@ $poker-app-primary: mat-palette($pallet-collors-primary);
 $poker-app-accent: mat-palette($pallet-collors-secondary, 500, 300, 700);
 $poker-app-warn: mat-palette($mat-red);
 $poker-app-theme: mat-light-theme($poker-app-primary, $poker-app-accent, $poker-app-warn);
-@include angular-material-theme($poker-app-theme);
 @include mat-core();
+@include angular-material-theme($poker-app-theme);
 @include typography();
 @include loading-init();
