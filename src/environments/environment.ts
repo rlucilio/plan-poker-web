@@ -4,12 +4,14 @@
 
 export const environment = {
   production: false,
-  room_api: {
-    base_path: 'http://localhost:3000',
-    entrypoints: {
-      create_room: '/session',
-      find_room: '/session/find'
-    }
+  socket: {
+    baseUrl: 'http://localhost:3000'
+  },
+  api: {
+    baseUrl: 'http://localhost:3000',
+    tasks: '/task',
+    room: '/room',
+    user: '/user'
   }
 };
 

@@ -13,11 +13,18 @@ import { HomeComponent } from './components/home/home.component';
 import { HomeRoomComponent } from './components/home-room/home-room.component';
 import { HomeRoomCreateComponent } from './components/home-room-create/home-room-create.component';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RoomValidatorsService } from 'src/app/shared/services/room/room-validators.service';
+import { RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
 
 
 
 @NgModule({
-  declarations: [HomeComponent, HomeRoomComponent, HomeRoomCreateComponent],
+  declarations: [
+    HomeComponent,
+    HomeRoomComponent,
+    HomeRoomCreateComponent
+  ],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -28,7 +35,13 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     ComponentsModule,
     MatStepperModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    RoomValidatorsService,
+    RoomProviderService
   ]
 })
 export class HomeModule { }
