@@ -1,23 +1,35 @@
+@import '../../../../scss/colors.scss';
+
 :host {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    padding: 5%;
+    padding: 16px;
     box-sizing: border-box;
 
+    @media (max-width: 930px) {
+        flex-direction: column;
+    }
+
     &>.container-create-room {
-        height: calc(100% - 192px);
+        height: 80%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-content: center;
         flex-direction: column;
 
-        &>mat-horizontal-stepper {
+        @media (max-width: 930px) {
+            justify-content: flex-start;
+        }
+
+        mat-horizontal-stepper {
             background: transparent;
-            height: 50%;
+            height: 100%;
+
 
             mat-form-field {
                 width: 100%;
@@ -32,15 +44,35 @@
                     -moz-appearance: textfield;
                 }
             }
+            
+            ::ng-deep{
+                &>div>mat-step-header>div.mat-step-label.mat-step-label-active.mat-step-label-selected {
+                    color: map-get($map: $pallet-collors-secondary, $key: 700);
+                }
+
+                &>div>mat-step-header>div.mat-step-label {
+                    color: map-get($map: $pallet-collors-secondary, $key: 300);
+                }
+
+                div.mat-horizontal-stepper-content form mat-slide-toggle span {
+                    color: map-get($map: $pallet-collors-secondary, $key: 300);
+                }
+
+                mat-select div.mat-select-trigger div.mat-select-value span {
+                    color: map-get($map: $pallet-collors-secondary, $key: 300);
+                }
+            }
 
             .btns {
                 margin-top: 16px;
-                
-                button, a{
+
+                button,
+                a {
                     margin-right: 8px;
                 }
 
-                .btn-confirm, a {
+                .btn-confirm,
+                a {
                     width: 30%;
                 }
             }

@@ -43,6 +43,20 @@ interface IGetUserResponse {
   id: string;
 }
 
+export interface ICreateRoomRequest {
+  name: string;
+  description: string;
+  settingsRoom: {
+      autoFlipCards: boolean;
+      enableFlipCardsTimeout: boolean;
+      enableObserver: boolean;
+      changeVoteAfterReveal: boolean;
+      keepHistory: boolean;
+      timeoutFlipCards: number;
+      typeRoom: string;
+  };
+}
+
 @Injectable()
 export class RoomProviderService {
 
@@ -60,5 +74,9 @@ export class RoomProviderService {
 
   getUsers(room: string): Observable<IGetUserResponse[]> {
     return this.http.get<IGetUserResponse[]>(`${environment.api.baseUrl}/${environment.api.user}/${room}`);
+  }
+
+  createRoom(createRoom: ICreateRoomRequest): Observable<IGetRoomResponse>{
+    return this.http.post<IGetRoomResponse>(`${environment.api.baseUrl}${environment.api.room}`, createRoom);
   }
 }

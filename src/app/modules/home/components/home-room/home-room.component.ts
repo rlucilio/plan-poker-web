@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomService } from 'src/app/shared/services/room/room.service';
+import { RoomEventsService } from 'src/app/shared/services/room/room-events.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RoomValidatorsService } from 'src/app/shared/services/room/room-validators.service';
@@ -12,7 +12,7 @@ export class HomeRoomComponent implements OnInit {
   formConnect: FormGroup;
 
   constructor(
-    private roomService: RoomService,
+    private roomService: RoomEventsService,
     private fb: FormBuilder,
     private toast: ToastrService,
     private roomValidator: RoomValidatorsService

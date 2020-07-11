@@ -16,7 +16,8 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoomValidatorsService } from 'src/app/shared/services/room/room-validators.service';
 import { RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
-
+import { RoomService } from 'src/app/shared/services/room/room.service';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 
 @NgModule({
@@ -37,11 +38,13 @@ import { RoomProviderService } from 'src/app/shared/services/room/room-provider.
     MatSelectModule,
     MatSlideToggleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgScrollbarModule
   ],
   providers: [
     RoomValidatorsService,
-    RoomProviderService
+    RoomProviderService,
+    RoomService
   ]
 })
 export class HomeModule { }

@@ -16,8 +16,9 @@ export class RoomValidatorsService  {
       .valueChanges
       .pipe(debounceTime(500))
       .pipe(switchMap((room: string) => this.roomProvider.getRoom(room.replace(/ /g, '_'))))
-      .pipe(catchError(() => null))
-      .pipe(map((room: IGetRoomResponse | null) => room ? { roomExist: true } : null));
+      .pipe(catchError(() => of(null)))
+      .pipe(map((room: IGetRoomResponse | null) => room ? { roomExist: true } : null))
+      .pipe(first());
   }
 
   verifyRoomNotExist() {
