@@ -23,5 +23,3 @@ $poker-app-theme: mat-light-theme($poker-app-primary, $poker-app-accent, $poker-
 @include angular-material-theme($poker-app-theme);
 @include typography();
 @include loading-init();
-
-

@@ -1,0 +1,54 @@
+:host {
+    .scroll-cards {
+        --scrollbar-thumb-color: #e15b64;
+        --scrollbar-thumb-hover-color: #cd2f36;
+    }
+
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+
+    &>.header-task {
+        text-align: center;
+        height: 70px;
+
+        .header-task-title,
+        .header-task-description {
+            font-weight: 100;
+        }
+
+        .header-task-description {
+            font-size: 12px;
+        }
+    }
+
+    &>.main-task {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 70px);
+
+
+        .main-task-votes {
+            display: flex;
+            flex-direction: row;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            height: 130px;
+        }
+
+        .main-task-result{
+            display: flex;
+            height: calc(100% - 130px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            .main-task-result-label{
+                font-weight: 100;
+            }
+        }
+    }
+}

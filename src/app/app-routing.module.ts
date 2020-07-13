@@ -12,6 +12,7 @@ const routes: Routes = [
     redirectTo: '/home',
     pathMatch: 'full'
   },
+  { path: 'room/:room', loadChildren: () => import('./modules/room/room.module').then(m => m.RoomModule) },
   {
     path: '**',
     redirectTo: '/home',

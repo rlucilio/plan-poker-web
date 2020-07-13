@@ -1,0 +1,27 @@
+<header class="header-task">
+    <h3 class="header-task-title">Task - Nome da task</h3>
+    <p class="header-task-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque illum eius omnis
+        possimus facilis itaque minus at
+        quisquam nihil velit voluptas commodi nisi asperiores, ratione odit quidem repellendus quibusdam facere?</p>
+</header>
+
+<main class="main-task">
+    <ng-scrollbar [track]="'horizontal'" [visibility]="'always'" class="scroll-cards">
+        <section class="main-task-votes">
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+            <app-vote-card-user></app-vote-card-user>
+        </section>
+    </ng-scrollbar>
+
+    <section class="main-task-result">
+        <app-vote-card [typeCard]="'sword'"></app-vote-card>
+        <p class="main-task-result-label">Resultado da Task</p>
+    </section>
+</main>

@@ -46,7 +46,7 @@ export class HomeRoomCreateComponent implements OnInit {
   private createFormVotes() {
     this.formRoom = this.fb.group({
       nameRoom: ['', [Validators.required , Validators.minLength(3)], this.roomValidator.verifyRoomExist()],
-      description: ['', []],
+      description: ['', [Validators.minLength(60)]],
       observables: ['', []]
     });
   }

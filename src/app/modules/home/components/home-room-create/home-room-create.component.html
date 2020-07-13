@@ -23,6 +23,7 @@
                         <mat-form-field>
                             <mat-label>Descrição da sala</mat-label>
                             <input matInput formControlName="description">
+                            <mat-error color="error" *ngIf="formRoom.get('description').hasError('maxlength')">Descrição não pode passar de 60 caracteres</mat-error>
                         </mat-form-field>
                     </section>
 

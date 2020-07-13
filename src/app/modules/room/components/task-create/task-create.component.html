@@ -1,0 +1,22 @@
+<header class="task-create-dialog-header">
+    <h1 mat-dialog-title class="task-create-dialog-header-title">Nova Task</h1>
+</header>
+
+<main mat-dialog-content class="task-create-dialog-main">
+    <form class="task-create-dialog-main-form">
+        <mat-form-field>
+            <mat-label>Nome da task</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Descrição da task</mat-label>
+            <textarea matInput cols="30" rows="5"></textarea>
+        </mat-form-field>
+    </form>
+</main>
+
+<footer mat-dialog-actions class="task-create-dialog-footer">
+    <button mat-button>Cancelar</button>
+    <button mat-button color="primary">Criar task</button>
+</footer>

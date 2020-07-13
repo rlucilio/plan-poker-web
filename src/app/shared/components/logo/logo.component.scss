@@ -1,5 +1,5 @@
 :host {
-    &>.logo-container {
+    &>.logo-normal {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -7,6 +7,27 @@
 
         &>.title {
             transform: translateY(-46px) rotateZ(12deg);
+        }
+    }
+
+    &>.logo-simple {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        &>.logo{
+            img {
+                height: 40px;
+            }
+        }
+
+        &>.title {
+            transform: translateY(-4px);
+
+            h1 {
+                font-size: 16px;
+            }
         }
     }
 }
