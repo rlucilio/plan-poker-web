@@ -1,3 +1,6 @@
+@import './animations.scss';
+
+
 @mixin loading-init {
     loading-init {
         width: 100%;
@@ -23,33 +26,6 @@
             .enter-focus-animate{
                 animation: focus-text 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
             }
-        }
-    }
-    
-    @keyframes rotate-card {
-        0% {
-            transform: rotateY(-360deg);
-            opacity: 0;
-        }
-    
-        100% {
-            transform: rotateY(0deg);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes focus-text {
-        0% {
-            letter-spacing: 1em;
-            transform: translateZ(300px);
-            filter: blur(12px);
-            opacity: 0;
-        }
-    
-        100% {
-            transform: translateZ(12px);
-            filter: blur(0);
-            opacity: 1;
         }
     }
 }

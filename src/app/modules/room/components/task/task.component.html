@@ -6,22 +6,20 @@
 </header>
 
 <main class="main-task">
-    <ng-scrollbar [track]="'horizontal'" [visibility]="'always'" class="scroll-cards">
-        <section class="main-task-votes">
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-            <app-vote-card-user></app-vote-card-user>
-        </section>
-    </ng-scrollbar>
+    <section class="main-task-votes card-result-reveal-user">
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+        <app-vote-card-user class="card"></app-vote-card-user>
+    </section>
 
-    <section class="main-task-result">
-        <app-vote-card [typeCard]="'sword'"></app-vote-card>
+    <section class="main-task-result card-result-reveal">
+        <app-vote-card [typeCard]="'sword'" class="card"></app-vote-card>
         <p class="main-task-result-label">Resultado da Task</p>
     </section>
 </main>

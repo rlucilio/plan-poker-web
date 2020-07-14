@@ -1,14 +1,4 @@
-@keyframes focusImg {
-    to {
-        transform: scale(1.2);
-        background-color: red;
-    }
-    
-    from {
-        transform: scale(1);
-        background-color: blue;
-    }
-  }
+@import './animations.scss';
 
 @mixin img-btn {
     cursor: pointer;

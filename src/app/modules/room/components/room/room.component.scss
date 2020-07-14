@@ -1,4 +1,6 @@
 @import '../../../../scss/colors.scss';
+@import '../../../../scss/animations.scss';
+
 
 :host {
     .scroll-cards {
@@ -70,6 +72,7 @@
 
             .list-users {
                 height: calc(100% - 40px);
+
             }
         }
 
@@ -94,12 +97,12 @@
                         flex-direction: row;
                         padding: 16px;
                         box-sizing: border-box;
-                        
+
                         .task {
                             width: 80%;
                             height: 100%;
                         }
-                        
+
                         .task-history {
                             width: 20%;
                         }
@@ -122,57 +125,58 @@
 
                     app-vote-card {
                         position: absolute;
-                        left: 42%;
                     }
 
-                    .card-1 {
+                    .card {
+                        &:hover {
+                            animation-name: focus-card;
+                            animation-duration: 1s;
+                            animation-delay: 0s;
+                            animation-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+                            animation-fill-mode: both;
+                            animation-direction: normal;
+                            animation-play-state: running;
+                        }
 
-                        transform: translate(calc(-40px * 4), 0px);
-                    }
+                        &.card-1 {
+                            left: calc(45% - calc(40px * 4));
+                        }
 
-                    .card-2 {
+                        &.card-2 {
+                            left: calc(45% - calc(40px * 3));
+                        }
 
-                        transform: translate(calc(-40px * 3), 0px);
-                    }
+                        &.card-3 {
+                            left: calc(45% - calc(40px * 2));
+                        }
 
-                    .card-3 {
+                        &.card-4 {
+                            left: calc(45% - calc(40px * 1));
+                        }
 
-                        transform: translate(calc(-40px * 2), 0px);
-                    }
+                        &.card-5 {
+                            left: calc(45%);
+                        }
 
-                    .card-4 {
+                        &.card-6 {
+                            left: calc(45% + calc(40px * 1));
+                        }
 
-                        transform: translate(calc(-40px * 1), 0px);
-                    }
+                        &.card-7 {
+                            left: calc(45% + calc(40px * 2));
+                        }
 
-                    .card-5 {
+                        &.card-8 {
+                            left: calc(45% + calc(40px * 3));
+                        }
 
-                        transform: translate(0px, 0px);
-                    }
+                        &.card-9 {
+                            left: calc(45% + calc(40px * 4));
+                        }
 
-                    .card-6 {
-
-                        transform: translate(calc(40px * 1), 0px);
-                    }
-
-                    .card-7 {
-
-                        transform: translate(calc(40px * 2), 0px);
-                    }
-
-                    .card-8 {
-
-                        transform: translate(calc(40px * 3), 0px);
-                    }
-
-                    .card-9 {
-
-                        transform: translate(calc(40px * 4), 0px);
-                    }
-
-                    .card-10 {
-
-                        transform: translate(calc(40px * 5), 0px);
+                        &.card-10 {
+                            left: calc(45% + calc(40px * 5));
+                        }
                     }
                 }
             }
