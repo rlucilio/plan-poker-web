@@ -4,6 +4,7 @@ import { StorageService } from '../storage/storage.service';
 import { EventsRoom } from './eventsRoom';
 import { Subscription, Observable, ReplaySubject } from 'rxjs';
 import { tap, map, switchMap, take } from 'rxjs/operators';
+import { IRoom } from '../../models/room';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,10 @@ export class RoomEventsService {
   connect(room: string, nameUser?: string): Observable<boolean> {
     this.socketService.createConnectionRoom(room, nameUser);
 
-    this.events.push(this.socketService.fromEvent(EventsRoom.returnRoom).subscribe(result => {
-      console.log(result);
-    }));
+    const roomStorage: IRoom = {
+      roomName: room
+    };
+    this.storage.setObject('room', roomStorage);
 
     this.events.push(this.socketService.fromEvent(EventsRoom.error_socket).subscribe(
       (result: { event: string; msg?: string, error: any, params: any }) => {
@@ -34,6 +36,7 @@ export class RoomEventsService {
         this.sendError(result);
       }));
 
+    this.events.forEach(event => event.unsubscribe());
     this.socketService.connect();
     this.subjectConnect.next(true);
     return this.subjectConnect.pipe(take(2));
@@ -43,9 +46,14 @@ export class RoomEventsService {
     return this.subjectConnect.pipe(
       switchMap(() => this.socketService.fromEvent(EventsRoom.newObserver).pipe(
         tap((response: { msg: string, user: string, socketId: string }) => {
-          this.storage.setObject(response.socketId, {
-            id: response.socketId
-          });
+          const room = this.storage.getObject<IRoom>('room');
+
+          room.user = {
+            socketID: response.socketId
+          };
+
+          this.storage.setObject('room', room);
+
         }),
         map(response => !!response)
       ))
@@ -56,15 +64,21 @@ export class RoomEventsService {
     return this.subjectConnect.pipe(
       switchMap(() => this.socketService.fromEvent(EventsRoom.joinRoom).pipe(
         tap((response: { msg: string, user: string, socketId: string }) => {
-          this.storage.setObject(response.socketId, {
-            id: response.socketId
-          });
+          const room = this.storage.getObject<IRoom>('room');
+
+          room.user = {
+            name: response.user,
+            socketID: response.socketId
+          };
+
+          this.storage.setObject('room', room);
         }),
       ))
     );
   }
 
   private sendError(result: any) {
+    this.storage.clear();
     console.log('Error -> ', result);
     this.subjectConnect.error(result);
 

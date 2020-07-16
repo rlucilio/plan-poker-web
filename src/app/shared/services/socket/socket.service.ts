@@ -29,9 +29,11 @@ export class SocketService {
   }
 
   connect() {
-    if (this.socket.disconnected) {
-      this.socket.connect();
+    if (this.socket.connected) {
+      this.socket.disconnect();
     }
+
+    this.socket.connect();
   }
 
   fromEvent<T>(event: string): Observable<T> {

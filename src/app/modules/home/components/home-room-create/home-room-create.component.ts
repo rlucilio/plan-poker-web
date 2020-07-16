@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RoomValidatorsService } from 'src/app/shared/services/room/room-validators.service';
-import { RoomEventsService } from 'src/app/shared/services/room/room-events.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { RoomEventsService } from 'src/app/shared/services/room/room-events.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './home-room-create.component.html',
@@ -18,7 +21,10 @@ export class HomeRoomCreateComponent implements OnInit {
     private fb: FormBuilder,
     private roomValidator: RoomValidatorsService,
     private roomService: RoomService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private loading: LoadingService,
+    private roomEvents: RoomEventsService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -34,10 +40,16 @@ export class HomeRoomCreateComponent implements OnInit {
       votes: Object.assign({}, this.formVotes.value)
     };
 
-    this.roomService.create(roomCreateRequest).subscribe({
-      next: () => {
+    this.roomService.create(roomCreateRequest)
+    .subscribe({
+      next: room => {
         this.toast.success('Sala Criada');
-        this.toast.show('Redirecionando...');
+        this.toast.show('Faça a conexão na sala agora como observador ou jogador...');
+        this.router.navigate(['/home'], {
+          queryParams: {
+            room: room.replace(/_/g, ' ')
+          }
+        });
       },
       error: err => this.toast.error('Erro ao criar a sala')
     });
@@ -46,7 +58,7 @@ export class HomeRoomCreateComponent implements OnInit {
   private createFormVotes() {
     this.formRoom = this.fb.group({
       nameRoom: ['', [Validators.required , Validators.minLength(3)], this.roomValidator.verifyRoomExist()],
-      description: ['', [Validators.minLength(60)]],
+      description: ['', [Validators.maxLength(60)]],
       observables: ['', []]
     });
   }

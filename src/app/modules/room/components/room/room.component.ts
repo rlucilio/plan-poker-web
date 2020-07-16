@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TaskCreateComponent } from '../task-create/task-create.component';
 
 @Component({
@@ -10,10 +11,12 @@ import { TaskCreateComponent } from '../task-create/task-create.component';
 export class RoomComponent implements OnInit {
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loading: LoadingService
   ) { }
 
   ngOnInit(): void {
+    this.loading.hide();
   }
 
   addTask() {

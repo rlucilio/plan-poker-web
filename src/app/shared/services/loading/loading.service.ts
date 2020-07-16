@@ -35,6 +35,7 @@ export class LoadingService {
 
     const animation = this.animationBuilder.build([
       style({
+        display: 'flex',
         opacity: '0',
         'z-index': -1
       }),
@@ -46,7 +47,6 @@ export class LoadingService {
 
     animation.play();
     animation.onStart(() => {
-      this.loading.style.display = 'flex';
       this.loading.querySelector('.label > p').classList.add('.enter-focus-animate');
     });
   }

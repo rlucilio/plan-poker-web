@@ -27,7 +27,7 @@ export class RoomService {
     private roomProvider: RoomProviderService
   ) { }
 
-  create(createRoom: ICreateRoom): Observable<boolean> {
+  create(createRoom: ICreateRoom): Observable<string> {
     if (createRoom.task.timeout && !createRoom.task.timeForTimeout) { createRoom.task.timeForTimeout = 1; }
 
     const request: ICreateRoomRequest = {
@@ -49,6 +49,6 @@ export class RoomService {
       console.log(error);
       return throwError(error);
     }))
-    .pipe(map(room => !!room));
+    .pipe(map(room => room.name));
   }
 }
