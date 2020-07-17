@@ -21,19 +21,28 @@ export class SocketService {
       query.user = nameUser;
     }
 
-    if (!this.socket || (this.socket && this.socket.disconnected)) {
-      this.socket = io(environment.socket.baseUrl, {
-        query
-      });
-    }
-  }
-
-  connect() {
-    if (this.socket.connected) {
+    if (this.socket){
+      this.socket.removeAllListeners();
       this.socket.disconnect();
     }
 
-    this.socket.connect();
+    this.socket = io(environment.socket.baseUrl, {
+      query
+    });
+
+  }
+
+  connect() {
+    if (this.socket) {
+      this.socket.connect();
+    }
+  }
+
+  disconnect() {
+    if (this.socket) {
+      this.socket.removeAllListeners();
+      this.socket.disconnect();
+    }
   }
 
   fromEvent<T>(event: string): Observable<T> {

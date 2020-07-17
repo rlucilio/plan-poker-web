@@ -19,6 +19,9 @@ import { TaskComponent } from './components/task/task.component';
 import { VoteCardUserComponent } from './components/vote-card-user/vote-card-user.component';
 import { TaskCreateComponent } from './components/task-create/task-create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RoomService } from 'src/app/shared/services/room/room.service';
+import { RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
+import { RoomStorageGuard } from './guards/room-storage.guard';
 
 
 @NgModule({
@@ -48,6 +51,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   entryComponents: [
     TaskCreateComponent
+  ],
+  providers: [
+    RoomProviderService,
+    RoomService,
+    RoomStorageGuard
   ]
 })
 export class RoomModule { }

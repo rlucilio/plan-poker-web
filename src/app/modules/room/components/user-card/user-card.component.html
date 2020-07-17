@@ -1,7 +1,7 @@
-<main class="main-user-card user-voted">
+<main class="main-user-card" [ngClass]="{'user-voted': player?.voted}">
     <section class="img">
         <img src="../../../../assets/imgs/card-user.svg">
-        <p>Renan lucilioasdasdsadasdsdasda</p>
+        <p>{{player?.name}}</p>
     </section>
 
     <!-- <section class="card">

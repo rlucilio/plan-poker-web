@@ -5,7 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { RoomValidatorsService } from 'src/app/shared/services/room/room-validators.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
+import { catchError, first, map } from 'rxjs/operators';
+import { IGetRoomResponse, RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
 
 @Component({
   templateUrl: './home-room.component.html',
@@ -40,17 +42,17 @@ export class HomeRoomComponent implements OnInit, OnDestroy {
       user: ['', [Validators.minLength(3)]]
     });
 
-    if (this.activeRoute.snapshot.queryParams.room){
+    if (this.activeRoute.snapshot.queryParams.room) {
       this.formConnect.get('room').setValue(this.activeRoute.snapshot.queryParams.room);
     }
   }
 
   connectUser() {
-    if (this.formConnect.get('room').valid && (this.formConnect.get('user').valid && this.formConnect.get('user').value)) {
+    if (this.formConnect.get('room').value && this.formConnect.get('user').value) {
       this.connect(this.formConnect.get('room').value.replace(/ /g, '_'), this.formConnect.get('user').value);
     } else {
       let field = this.formConnect.get('room').invalid ? 'Nome da sala, ' : '';
-      field += !this.formConnect.get('user').value ? 'Nome' : '';
+      field += !this.formConnect.get('user').invalid ? 'Nome' : '';
       this.showWarning(field);
     }
   }
@@ -93,10 +95,10 @@ export class HomeRoomComponent implements OnInit, OnDestroy {
   }
 
   connectObserver() {
-    if (this.formConnect.get('room').valid && this.formConnect.get('room').value) {
+    if (this.formConnect.get('room').value) {
       this.connect(this.formConnect.get('room').value.replace(/ /g, '_'));
     } else {
-      this.showWarning('Nome da sala');
+      if (this.formConnect.get('room').invalid) { this.showWarning('Nome da sala'); }
     }
   }
 }

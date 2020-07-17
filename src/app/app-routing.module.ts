@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RoomGuard } from './modules/room/guards/room.guard';
-
+import { RoomStorageGuard } from './modules/room/guards/room-storage.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +15,7 @@ const routes: Routes = [
   {
     path: 'room/:room',
     loadChildren: () => import('./modules/room/room.module').then(m => m.RoomModule),
-    canLoad: [RoomGuard]
+    canActivate: [RoomStorageGuard]
   },
   {
     path: '**',

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  private storage = window.localStorage;
+  private storage = window.sessionStorage;
   constructor() { }
 
   setValue(key: string, value: any) {
@@ -12,6 +12,7 @@ export class StorageService {
       throw new Error('Params invalid');
     }
 
+    this.storage.removeItem(key);
     this.storage.setItem(key, value);
   }
 
@@ -20,6 +21,7 @@ export class StorageService {
       throw new Error('Params invalid');
     }
 
+    this.storage.removeItem(key);
     this.storage.setItem(key, JSON.stringify(value));
   }
 

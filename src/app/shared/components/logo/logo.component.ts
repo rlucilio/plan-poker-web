@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logo',
@@ -8,9 +9,14 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 })
 export class LogoComponent implements OnInit {
   @Input() isNormal = true;
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
+  goHome() {
+    this.router.navigate(['home']);
+  }
 }

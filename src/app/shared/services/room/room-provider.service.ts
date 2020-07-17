@@ -57,6 +57,20 @@ export interface ICreateRoomRequest {
   };
 }
 
+export interface IGetLastTask {
+  description: string;
+  id: string;
+  title: string;
+  votes: {
+    user: {
+      idSocket: string;
+      name: string;
+    },
+    votting?: number;
+  }[];
+  resultVoting?: number;
+}
+
 @Injectable()
 export class RoomProviderService {
 
@@ -73,7 +87,11 @@ export class RoomProviderService {
   }
 
   getUsers(room: string): Observable<IGetUserResponse[]> {
-    return this.http.get<IGetUserResponse[]>(`${environment.api.baseUrl}/${environment.api.user}/${room}`);
+    return this.http.get<IGetUserResponse[]>(`${environment.api.baseUrl}${environment.api.user}/${room}`);
+  }
+
+  getLastTask(room: string): Observable<IGetLastTask>{
+    return this.http.get<IGetLastTask>(`${environment.api.baseUrl}${environment.api.tasks}/${room}/last`);
   }
 
   createRoom(createRoom: ICreateRoomRequest): Observable<IGetRoomResponse>{

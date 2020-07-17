@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SocketService } from '../socket/socket.service';
 import { StorageService } from '../storage/storage.service';
-import { EventsRoom } from './eventsRoom';
+import { EventsRoom } from './models/eventsRoom';
 import { Subscription, Observable, ReplaySubject } from 'rxjs';
 import { tap, map, switchMap, take } from 'rxjs/operators';
 import { IRoom } from '../../models/room';
@@ -20,10 +20,16 @@ export class RoomEventsService {
 
   connect(room: string, nameUser?: string): Observable<boolean> {
     this.socketService.createConnectionRoom(room, nameUser);
+    this.events.forEach(event => event.unsubscribe());
 
-    const roomStorage: IRoom = {
-      roomName: room
-    };
+
+    let roomStorage = this.storage.getObject<IRoom>('room');
+
+    if (!roomStorage) {
+      roomStorage = {
+        roomName: room
+      };
+    }
     this.storage.setObject('room', roomStorage);
 
     this.events.push(this.socketService.fromEvent(EventsRoom.error_socket).subscribe(
@@ -36,10 +42,12 @@ export class RoomEventsService {
         this.sendError(result);
       }));
 
-    this.events.forEach(event => event.unsubscribe());
-    this.socketService.connect();
     this.subjectConnect.next(true);
     return this.subjectConnect.pipe(take(2));
+  }
+
+  disconnect() {
+    this.socketService.disconnect();
   }
 
   get onConnectObserver(): Observable<boolean> {

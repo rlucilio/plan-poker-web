@@ -1,7 +1,7 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ICreateRoomRequest, RoomProviderService } from './room-provider.service';
+import { ICreateRoomRequest, IGetRoomResponse, RoomProviderService } from './room-provider.service';
 
 interface ICreateRoom {
   room: {
@@ -40,7 +40,7 @@ export class RoomService {
         enableObserver: createRoom.room.observables,
         keepHistory: createRoom.task.history,
         timeoutFlipCards: (createRoom.task.timeForTimeout * 60000),
-        typeRoom: createRoom.votes.typeVote
+        typeRoom: createRoom.votes.typeVote ? createRoom.votes.typeVote : 'room_hours'
       }
     };
 
@@ -50,5 +50,9 @@ export class RoomService {
       return throwError(error);
     }))
     .pipe(map(room => room.name));
+  }
+
+  getRoom(roomName: string): Observable<IGetRoomResponse> {
+    return this.roomProvider.getRoom(roomName);
   }
 }

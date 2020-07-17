@@ -11,6 +11,8 @@ export declare type TypesCard = 'ballon' | 'sword' | 'littleFlower' | 'heart';
 })
 export class VoteCardComponent implements OnInit {
   @Input() typeCard: TypesCard;
+  @Input() value: number;
+  @Input() hide: boolean;
 
   constructor() { }
 

@@ -3,18 +3,18 @@
         <app-logo [isNormal]="false"></app-logo>
     </section>
     <section class="header-info">
-        <h2 class="header-info-title">title</h2>
-        <h2 class="header-info-description">description</h2>
+        <h2 class="header-info-title">{{title}}</h2>
+        <h2 class="header-info-description">{{room?.description}}</h2>
     </section>
     <section class="header-count">
-        <mat-icon matBadge="1">person</mat-icon>
-        <mat-icon matBadge="3">remove_red_eye</mat-icon>
+        <mat-icon [matBadge]="room?.users?.length">person</mat-icon>
+        <mat-icon [matBadge]="room?.observers?.length">remove_red_eye</mat-icon>
     </section>
 </header>
 
 <main class="main-room">
     <section class="list">
-        <header class="list-actions">
+        <header class="list-actions" *ngIf="isPlayer">
             <button mat-icon-button matTooltip="Adicionar Task" (click)="addTask()" color="primary">
                 <mat-icon>post_add</mat-icon>
             </button>
@@ -28,38 +28,41 @@
             </button>
         </header>
         <main class="list-users">
-            <ng-scrollbar>
-                <app-user-card></app-user-card>
-                <app-user-card></app-user-card>
-                <app-user-card></app-user-card>
-            </ng-scrollbar>
+            <ng-container *ngFor="let item of players">
+                <ng-scrollbar>
+                    <app-user-card [player]="item"></app-user-card>
+                </ng-scrollbar>
+            </ng-container>
         </main>
     </section>
 
     <section class="main">
         <main>
-            <section class="main-body">
+            <section class="main-body" [ngClass]="{'full': !isPlayer}">
                 <main>
-                    <section class="task">
+                    <section class="task" [ngClass]="{'full': !room?.settingsRoom?.keepHistory}">
                         <app-task></app-task>
                     </section>
 
-                    <section class="task-history">
-                        <app-task-history></app-task-history>
-                    </section>
+                    <ng-container *ngIf="room?.settingsRoom?.keepHistory">
+                        <section class="task-history">
+                            <app-task-history></app-task-history>
+                        </section>
+                    </ng-container>
+
                 </main>
             </section>
-            <section class="main-cards">
-                <app-vote-card class="card-1 card"></app-vote-card>
-                <app-vote-card class="card-2 card"></app-vote-card>
-                <app-vote-card class="card-3 card"></app-vote-card>
-                <app-vote-card class="card-4 card"></app-vote-card>
-                <app-vote-card class="card-5 card"></app-vote-card>
-                <app-vote-card class="card-6 card"></app-vote-card>
-                <app-vote-card class="card-7 card"></app-vote-card>
-                <app-vote-card class="card-8 card"></app-vote-card>
-                <app-vote-card class="card-9 card"></app-vote-card>
-                <app-vote-card class="card-10 card"></app-vote-card>
+            <section class="main-cards" *ngIf="isPlayer">
+                <app-vote-card class="card-1 card" [value]=".3" [typeCard]="'ballon'"></app-vote-card>
+                <app-vote-card class="card-2 card" [value]="2" [typeCard]="'sword'"></app-vote-card>
+                <app-vote-card class="card-3 card" [value]="4" [typeCard]="'sword'"></app-vote-card>
+                <app-vote-card class="card-4 card" [value]="6" [typeCard]="'sword'"></app-vote-card>
+                <app-vote-card class="card-5 card" [value]="8" [typeCard]="'ballon'"></app-vote-card>
+                <app-vote-card class="card-6 card" [value]="10" [typeCard]="'littleFlower'"></app-vote-card>
+                <app-vote-card class="card-7 card" [value]="14" [typeCard]="'heart'"></app-vote-card>
+                <app-vote-card class="card-8 card" [value]="16" [typeCard]="'littleFlower'"></app-vote-card>
+                <app-vote-card class="card-9 card" [value]="20" [typeCard]="'heart'"></app-vote-card>
+                <app-vote-card class="card-10 card" [value]="32" [typeCard]="'ballon'"></app-vote-card>
             </section>
         </main>
     </section>

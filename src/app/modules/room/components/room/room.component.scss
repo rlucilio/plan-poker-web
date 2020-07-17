@@ -90,7 +90,11 @@
                     background: $collor-third;
                     border-radius: 8px;
                     margin-bottom: 8px;
-                    height: calc(100% - 210px);
+                    height: calc(100% - 300px);
+
+                    &.main-body {
+                        height: 100%;
+                    }
 
                     main {
                         display: flex;
@@ -101,6 +105,10 @@
                         .task {
                             width: 80%;
                             height: 100%;
+
+                            &.full {
+                                width: 100%;
+                            }
                         }
 
                         .task-history {
@@ -112,7 +120,7 @@
 
                 .main-cards {
                     border-radius: 8px;
-                    height: 210px;
+                    height: 300px;
                     width: auto;
                     display: flex;
                     align-items: center;
@@ -129,6 +137,7 @@
 
                     .card {
                         &:hover {
+                            cursor: pointer;
                             animation-name: focus-card;
                             animation-duration: 1s;
                             animation-delay: 0s;

@@ -3,10 +3,10 @@
     <ng-container *ngIf="true; then showCard; else hideCard"></ng-container>
 
     <ng-template #showCard>
-        <p class="card-value" [ngClass]="{'card-color-primary': !typeCard || typeCard === 'ballon' || typeCard === 'heart'}">1</p>
+        <p class="card-value" [ngClass]="{'card-color-primary': !typeCard || typeCard === 'ballon' || typeCard === 'heart'}">{{value}}</p>
 
         <section class="card-top card">
-            <p class="card-value-top" [ngClass]="{'card-color-primary': !typeCard || typeCard === 'ballon' || typeCard === 'heart'}">5</p>
+            <p class="card-value-top" [ngClass]="{'card-color-primary': !typeCard || typeCard === 'ballon' || typeCard === 'heart'}">{{value}}</p>
             <img class="card-ballon-top" *ngIf="!typeCard || typeCard === 'ballon'" src="../../../../assets/imgs/ballon.svg">
             <img class="card-ballon-top" *ngIf="typeCard === 'heart'" src="../../../../../assets/imgs/heart.svg">
             <img class="card-ballon-top" *ngIf="typeCard === 'littleFlower'" src="../../../../../assets/imgs/little-flower.svg">
@@ -18,7 +18,7 @@
             <img class="card-ballon-top" *ngIf="typeCard === 'heart'" src="../../../../../assets/imgs/heart.svg">
             <img class="card-ballon-top" *ngIf="typeCard === 'littleFlower'" src="../../../../../assets/imgs/little-flower.svg">
             <img class="card-ballon-top" *ngIf="typeCard === 'sword'" src="../../../../../assets/imgs/sword.svg">
-            <p class="card-value-bottom" [ngClass]="{'card-color-primary': !typeCard || typeCard === 'ballon' || typeCard === 'heart'}">5</p>
+            <p class="card-value-bottom" [ngClass]="{'card-color-primary': !typeCard || typeCard === 'ballon' || typeCard === 'heart'}">{{value}}</p>
         </section>
     </ng-template>
     <ng-template #hideCard>
