@@ -5,6 +5,7 @@ import { EventsRoom } from './models/eventsRoom';
 import { Subscription, Observable, ReplaySubject } from 'rxjs';
 import { tap, map, switchMap, take } from 'rxjs/operators';
 import { IRoom } from '../../models/room';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -19,18 +20,19 @@ export class RoomEventsService {
   ) { }
 
   connect(room: string, nameUser?: string): Observable<boolean> {
-    this.socketService.createConnectionRoom(room, nameUser);
-    this.events.forEach(event => event.unsubscribe());
-
-
     let roomStorage = this.storage.getObject<IRoom>('room');
+    roomStorage = {
+      roomName: room,
+      user: {
+        name: roomStorage.user.name,
+        uuid: uuidv4()
+      }
+    };
 
-    if (!roomStorage) {
-      roomStorage = {
-        roomName: room
-      };
-    }
     this.storage.setObject('room', roomStorage);
+
+    this.socketService.createConnectionRoom(room, roomStorage.user.uuid, nameUser);
+    this.events.forEach(event => event.unsubscribe());
 
     this.events.push(this.socketService.fromEvent(EventsRoom.error_socket).subscribe(
       (result: { event: string; msg?: string, error: any, params: any }) => {
@@ -76,7 +78,8 @@ export class RoomEventsService {
 
           room.user = {
             name: response.user,
-            socketID: response.socketId
+            socketID: response.socketId,
+            uuid: room.user.uuid
           };
 
           this.storage.setObject('room', room);
@@ -86,6 +89,7 @@ export class RoomEventsService {
   }
 
   private sendError(result: any) {
+    this.socketService.clear();
     this.storage.clear();
     console.log('Error -> ', result);
     this.subjectConnect.error(result);

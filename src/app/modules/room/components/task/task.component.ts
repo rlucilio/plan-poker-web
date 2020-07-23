@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { IRoom } from 'src/app/shared/models/room';
-import { IGetLastTask, RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
+import { IGetLastTask } from 'src/app/shared/services/room/models/provider-room-responses';
+import { RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
 import { StorageService } from 'src/app/shared/services/storage/storage.service';
 
 @Component({
@@ -14,6 +15,9 @@ import { StorageService } from 'src/app/shared/services/storage/storage.service'
 export class TaskComponent implements OnInit {
   infoRoom: IRoom;
   task: IGetLastTask;
+
+  @Output()
+  changeTask = new EventEmitter<IGetLastTask>();
 
   constructor(
     private storage: StorageService,
@@ -29,6 +33,7 @@ export class TaskComponent implements OnInit {
     .subscribe(task => {
       this.task = task;
       this.cdr.detectChanges();
+      this.changeTask.emit(task);
     });
   }
 

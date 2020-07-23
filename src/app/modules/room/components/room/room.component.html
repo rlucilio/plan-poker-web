@@ -41,7 +41,7 @@
             <section class="main-body" [ngClass]="{'full': !isPlayer}">
                 <main>
                     <section class="task" [ngClass]="{'full': !room?.settingsRoom?.keepHistory}">
-                        <app-task></app-task>
+                        <app-task (changeTask)="changeTask($event)"></app-task>
                     </section>
 
                     <ng-container *ngIf="room?.settingsRoom?.keepHistory">

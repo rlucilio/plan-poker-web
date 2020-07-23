@@ -1,7 +1,8 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ICreateRoomRequest, IGetRoomResponse, RoomProviderService } from './room-provider.service';
+import { ICreateRoomRequest, IGetRoomResponse } from './models/provider-room-responses';
+import { RoomProviderService } from './room-provider.service';
 
 interface ICreateRoom {
   room: {

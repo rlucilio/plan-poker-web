@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { debounceTime, switchMap, map, catchError, tap, first } from 'rxjs/operators';
-import { RoomProviderService, IGetRoomResponse } from './room-provider.service';
+import { RoomProviderService } from './room-provider.service';
 import { of } from 'rxjs';
+import { IGetRoomResponse } from './models/provider-room-responses';
 
 @Injectable()
 export class RoomValidatorsService  {

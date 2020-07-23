@@ -2,74 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
-interface IGetListTasksResponse {
-  title: string;
-  id: string;
-}
-
-export interface IGetRoomResponse {
-  description: string;
-  name: string;
-  observers:
-  {
-    idSocket: string;
-  }[]
-  ;
-  settingsRoom: {
-    autoFlipCards: boolean;
-    changeVoteAfterReveal: boolean;
-    enableFlipCardsTimeout: boolean;
-    enableObserver: boolean;
-    keepHistory: boolean;
-    timeoutFlipCards: number;
-    typeRoom: string;
-  };
-  tasks:
-  {
-    description: string;
-    id: string;
-    title: string;
-  }[];
-  users:
-  {
-    idSocket: string;
-    name: string;
-  }[];
-}
-
-interface IGetUserResponse {
-  name: string;
-  id: string;
-}
-
-export interface ICreateRoomRequest {
-  name: string;
-  description: string;
-  settingsRoom: {
-      autoFlipCards: boolean;
-      enableFlipCardsTimeout: boolean;
-      enableObserver: boolean;
-      changeVoteAfterReveal: boolean;
-      keepHistory: boolean;
-      timeoutFlipCards: number;
-      typeRoom: string;
-  };
-}
-
-export interface IGetLastTask {
-  description: string;
-  id: string;
-  title: string;
-  votes: {
-    user: {
-      idSocket: string;
-      name: string;
-    },
-    votting?: number;
-  }[];
-  resultVoting?: number;
-}
+import { IGetListTasksResponse, IGetRoomResponse, IGetUserResponse, IGetLastTask, ICreateRoomRequest, IGetHistoryTask } from './models/provider-room-responses';
 
 @Injectable()
 export class RoomProviderService {
@@ -80,6 +13,10 @@ export class RoomProviderService {
 
   getListTasks(room: string): Observable<IGetListTasksResponse[]> {
     return this.http.get<IGetListTasksResponse[]>(`${environment.api.baseUrl}${environment.api.tasks}/${room}`);
+  }
+
+  getHistoryTasks(room: string): Observable<IGetHistoryTask[]> {
+    return this.http.get<IGetHistoryTask[]>(`${environment.api.baseUrl}${environment.api.tasks}/${room}/history`);
   }
 
   getRoom(room: string): Observable<IGetRoomResponse> {

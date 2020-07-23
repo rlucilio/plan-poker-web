@@ -1,20 +1,24 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-user-card',
   templateUrl: './user-card.component.html',
-  styleUrls: ['./user-card.component.scss']
+  styleUrls: ['./user-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserCardComponent implements OnInit {
+export class UserCardComponent{
   @Input() player: {
     idSocket: string;
     name: string;
     voted?: boolean;
   };
 
-  constructor() { }
+  constructor(
+    private crd: ChangeDetectorRef
+  ) { }
 
-  ngOnInit(): void {
+  update(): void {
+    this.crd.detectChanges();
   }
 
 }

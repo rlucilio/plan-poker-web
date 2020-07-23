@@ -5,9 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { RoomValidatorsService } from 'src/app/shared/services/room/room-validators.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { of, Subscription } from 'rxjs';
-import { catchError, first, map } from 'rxjs/operators';
-import { IGetRoomResponse, RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
+import { Subscription } from 'rxjs';
+import { RoomProviderService } from 'src/app/shared/services/room/room-provider.service';
 
 @Component({
   templateUrl: './home-room.component.html',

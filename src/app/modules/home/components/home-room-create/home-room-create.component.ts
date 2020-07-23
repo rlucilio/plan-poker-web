@@ -47,7 +47,7 @@ export class HomeRoomCreateComponent implements OnInit {
         this.toast.show('Faça a conexão na sala agora como observador ou jogador...');
         this.router.navigate(['/home'], {
           queryParams: {
-            room: room.replace(/_/g, ' ')
+            room: room.trim().replace(/_/g, ' ')
           }
         });
       },

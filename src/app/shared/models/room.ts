@@ -1,7 +1,8 @@
 export interface IRoom {
     roomName: string;
     user?: {
-        socketID: string;
+        uuid?: string;
+        socketID?: string;
         name?: string;
     };
 }

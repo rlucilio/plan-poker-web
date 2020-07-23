@@ -9,12 +9,14 @@ import { Observable, fromEvent } from 'rxjs';
 export class SocketService {
   private socket: typeof io.Socket;
 
-  createConnectionRoom(room: string, nameUser?: string): void {
+  createConnectionRoom(room: string, uuid: string, nameUser?: string): void {
     const query: {
       room: string,
-      user?: string
+      user?: string,
+      uuid: string
     } = {
-      room
+      room,
+      uuid
     };
 
     if (nameUser) {
@@ -47,6 +49,10 @@ export class SocketService {
 
   fromEvent<T>(event: string): Observable<T> {
     return fromEvent(this.socket, event);
+  }
+
+  clear() {
+    this.socket = null;
   }
 
 }
