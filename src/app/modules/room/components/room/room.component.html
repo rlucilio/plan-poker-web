@@ -19,7 +19,7 @@
                 <mat-icon>post_add</mat-icon>
             </button>
 
-            <button mat-icon-button matTooltip="Virar os votos" color="primary">
+            <button mat-icon-button matTooltip="Mostrar os votos" (click)="flipVotes()" color="primary">
                 <mat-icon>360</mat-icon>
             </button>
 
@@ -53,16 +53,66 @@
                 </main>
             </section>
             <section class="main-cards" *ngIf="isPlayer">
-                <app-vote-card class="card-1 card" [value]=".3" [typeCard]="'ballon'"></app-vote-card>
-                <app-vote-card class="card-2 card" [value]="2" [typeCard]="'sword'"></app-vote-card>
-                <app-vote-card class="card-3 card" [value]="4" [typeCard]="'sword'"></app-vote-card>
-                <app-vote-card class="card-4 card" [value]="6" [typeCard]="'sword'"></app-vote-card>
-                <app-vote-card class="card-5 card" [value]="8" [typeCard]="'ballon'"></app-vote-card>
-                <app-vote-card class="card-6 card" [value]="10" [typeCard]="'littleFlower'"></app-vote-card>
-                <app-vote-card class="card-7 card" [value]="14" [typeCard]="'heart'"></app-vote-card>
-                <app-vote-card class="card-8 card" [value]="16" [typeCard]="'littleFlower'"></app-vote-card>
-                <app-vote-card class="card-9 card" [value]="20" [typeCard]="'heart'"></app-vote-card>
-                <app-vote-card class="card-10 card" [value]="32" [typeCard]="'ballon'"></app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-1 card card-not-selected" 
+                    [value]=".3" 
+                    [typeCard]="'ballon'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-2 card card-not-selected" 
+                    [value]="2" 
+                    [typeCard]="'sword'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-3 card card-not-selected" 
+                    [value]="4" 
+                    [typeCard]="'sword'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-4 card card-not-selected" 
+                    [value]="6" 
+                    [typeCard]="'sword'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-5 card card-not-selected" 
+                    [value]="8" 
+                    [typeCard]="'ballon'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-6 card card-not-selected" 
+                    [value]="10" 
+                    [typeCard]="'littleFlower'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-7 card card-not-selected" 
+                    [value]="14" 
+                    [typeCard]="'heart'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-8 card card-not-selected" 
+                    [value]="16" 
+                    [typeCard]="'littleFlower'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-9 card card-not-selected" 
+                    [value]="20" 
+                    [typeCard]="'heart'">
+                </app-vote-card>
+                <app-vote-card 
+                    (cardSelected)="onVote($event)"
+                    class="card-10 card card-not-selected" 
+                    [value]="32" 
+                    [typeCard]="'ballon'">
+                </app-vote-card>
             </section>
         </main>
     </section>

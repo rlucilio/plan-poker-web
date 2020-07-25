@@ -39,7 +39,7 @@ export class HomeRoomCreateComponent implements OnInit {
       task: Object.assign({}, this.formTask.value),
       votes: Object.assign({}, this.formVotes.value)
     };
-
+    roomCreateRequest.room.nameRoom = roomCreateRequest.room.nameRoom.trim();
     this.roomService.create(roomCreateRequest)
     .subscribe({
       next: room => {
@@ -47,7 +47,7 @@ export class HomeRoomCreateComponent implements OnInit {
         this.toast.show('Faça a conexão na sala agora como observador ou jogador...');
         this.router.navigate(['/home'], {
           queryParams: {
-            room: room.trim().replace(/_/g, ' ')
+            room: room.replace(/_/g, ' ')
           }
         });
       },

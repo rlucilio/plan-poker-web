@@ -6,11 +6,9 @@ export interface IGetListTasksResponse {
 export interface IGetRoomResponse {
     description: string;
     name: string;
-    observers:
-    {
+    observers: {
         idSocket: string;
-    }[]
-    ;
+    }[];
     settingsRoom: {
         autoFlipCards: boolean;
         changeVoteAfterReveal: boolean;
@@ -20,16 +18,24 @@ export interface IGetRoomResponse {
         timeoutFlipCards: number;
         typeRoom: string;
     };
-    tasks:
-    {
+    tasks: {
         description: string;
         id: string;
         title: string;
+        votes: {
+            votting: number
+            user: {
+                idSocket: string;
+                name: string;
+                uuid: string;
+            }
+        }[],
+        resultVoting?: number
     }[];
-    users:
-    {
+    users: {
         idSocket: string;
         name: string;
+        uuid: string;
     }[];
 }
 

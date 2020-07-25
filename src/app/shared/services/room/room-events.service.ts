@@ -2,16 +2,35 @@ import { Injectable } from '@angular/core';
 import { SocketService } from '../socket/socket.service';
 import { StorageService } from '../storage/storage.service';
 import { EventsRoom } from './models/eventsRoom';
-import { Subscription, Observable, ReplaySubject } from 'rxjs';
+import { Subscription, Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { tap, map, switchMap, take } from 'rxjs/operators';
 import { IRoom } from '../../models/room';
 import { v4 as uuidv4 } from 'uuid';
+
+interface ICreateTask {
+  roomName: string;
+  taskName: string;
+  description: string;
+}
+
+interface IVoteTask {
+  value: number;
+  socketId: string;
+  uuid: string;
+  roomName: string;
+  taskId: string;
+}
+
+interface IFlipVotes {
+  roomName: string;
+  taskId: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomEventsService {
-  private subjectConnect = new ReplaySubject<boolean>(1);
+  private subjectConnect = new BehaviorSubject<boolean>(false);
   events: Subscription[] = [];
 
   constructor(
@@ -21,16 +40,19 @@ export class RoomEventsService {
 
   connect(room: string, nameUser?: string): Observable<boolean> {
     let roomStorage = this.storage.getObject<IRoom>('room');
+    const uuidStorage = this.storage.getValue('uuid');
+    const uuid = uuidStorage ? uuidStorage : uuidv4();
+
     roomStorage = {
       roomName: room,
       user: {
-        name: roomStorage.user.name,
-        uuid: uuidv4()
+        name: roomStorage?.user?.name,
+        uuid
       }
     };
 
     this.storage.setObject('room', roomStorage);
-
+    this.storage.setValue('uuid', uuid);
     this.socketService.createConnectionRoom(room, roomStorage.user.uuid, nameUser);
     this.events.forEach(event => event.unsubscribe());
 
@@ -88,12 +110,32 @@ export class RoomEventsService {
     );
   }
 
+  sendCreateTask(params: ICreateTask) {
+    if (params.roomName && params.taskName) {
+      this.socketService.emitEvent('request_create_task', params);
+    }
+  }
+
   private sendError(result: any) {
-    this.socketService.clear();
-    this.storage.clear();
     console.log('Error -> ', result);
     this.subjectConnect.error(result);
 
-    if (result.event === 'Connect') { this.events.forEach(event => event.unsubscribe()); }
+    if (result?.event === 'Connect') {
+      this.socketService.clear();
+      this.storage.clear();
+      this.events.forEach(event => event.unsubscribe());
+    }
+  }
+
+  sendVote(vote: IVoteTask) {
+    if (vote && vote.roomName && vote.uuid && vote.taskId && vote.value) {
+      this.socketService.emitEvent('vote_task', vote);
+    }
+  }
+
+  sendFlipVotes(flipVotes: IFlipVotes) {
+    if (flipVotes && flipVotes.taskId) {
+      this.socketService.emitEvent('flip_votes', flipVotes);
+    }
   }
 }

@@ -1,7 +1,6 @@
 @import '../../../../scss/colors.scss';
 @import '../../../../scss/animations.scss';
 
-
 :host {
     .scroll-cards {
         --scrollbar-thumb-color: #e15b64;
@@ -128,6 +127,7 @@
                     flex-wrap: wrap;
                     flex-direction: column;
                     box-sizing: border-box;
+                    animation: bounce-in-bottom 1s 1.1s both;
 
                     position: relative;
 
@@ -135,7 +135,8 @@
                         position: absolute;
                     }
 
-                    .card {
+                    .card-not-selected {
+                        animation: card-selected-reverse forwards .5s cubic-bezier(0.645, 0.045, 0.355, 1);
                         &:hover {
                             cursor: pointer;
                             animation-name: focus-card;
@@ -146,7 +147,13 @@
                             animation-direction: normal;
                             animation-play-state: running;
                         }
+                    }
 
+                    .card-selected {
+                        animation: card-selected .5s both cubic-bezier(0.645, 0.045, 0.355, 1);
+                    }
+ 
+                    .card {
                         &.card-1 {
                             left: calc(45% - calc(40px * 4));
                         }

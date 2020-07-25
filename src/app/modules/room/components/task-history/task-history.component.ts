@@ -19,10 +19,12 @@ export class TaskHistoryComponent implements OnInit {
   constructor(
     private storage: StorageService,
     private roomProvider: RoomProviderService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.infoRoom = this.storage.getObject<IRoom>('room');
+    this.update();
   }
 
   get total(): number {
@@ -34,6 +36,10 @@ export class TaskHistoryComponent implements OnInit {
       .pipe(catchError(() => of([])))
       .subscribe(tasks => {
         this.tasks = tasks;
+        this.tasks.forEach(task => {
+          task.title = task.title.replace(/_/g, ' ');
+        });
+        this.cdr.detectChanges();
       });
   }
 

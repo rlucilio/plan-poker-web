@@ -32,6 +32,11 @@ export class TaskComponent implements OnInit {
     .pipe(catchError(() => of({title: 'Crie uma nova task, para começar...'} as IGetLastTask)))
     .subscribe(task => {
       this.task = task;
+      this.task.title = this.task.title.replace(/_/g, ' ');
+      this.infoRoom.task = {
+        id: task.id
+      };
+      this.storage.setObject('room', this.infoRoom);
       this.cdr.detectChanges();
       this.changeTask.emit(task);
     });

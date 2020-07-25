@@ -5,4 +5,7 @@ export interface IRoom {
         socketID?: string;
         name?: string;
     };
+    task?: {
+        id: string
+    };
 }

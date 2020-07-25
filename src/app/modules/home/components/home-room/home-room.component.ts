@@ -64,7 +64,10 @@ export class HomeRoomComponent implements OnInit, OnDestroy {
             this.toast.info('Conectando');
           }
         },
-        error: result => this.toast.error(result.error.msg, 'Erro ao conectar')
+        error: result => {
+          this.toast.error(result.error.msg, 'Erro ao conectar');
+          this.subscriptions.forEach(sub => sub.unsubscribe());
+        }
       }));
 
     this.subscriptions.push(this.roomService.onConnectObserver.subscribe(result => {

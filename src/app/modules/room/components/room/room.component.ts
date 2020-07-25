@@ -10,6 +10,7 @@ import { RoomService } from 'src/app/shared/services/room/room.service';
 import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { TaskCreateComponent } from '../task-create/task-create.component';
 import { UserCardComponent } from '../user-card/user-card.component';
+import { VoteCardComponent } from '../vote-card/vote-card.component';
 
 @Component({
   selector: 'app-room',
@@ -18,7 +19,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 })
 export class RoomComponent implements OnInit {
   @ViewChildren(UserCardComponent) playersCards: UserCardComponent[];
-
+  @ViewChildren(VoteCardComponent) votes: VoteCardComponent[];
   room: IGetRoomResponse;
   private infoRoom: IRoom;
   players: {
@@ -39,16 +40,22 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.infoRoom = this.storage.getObject<IRoom>('room');
+
+    this.roomEvents.disconnect();
+
     this.roomEvents
-    .connect(this.infoRoom.roomName, this.infoRoom.user?.name)
-    .subscribe({
-      next: () => this.toast.success('Bem-vindo à sala ' + this.infoRoom.roomName.replace(/_/g, ' ')),
-      error: result => {
-        this.router.navigate(['/home']);
-        this.loading.hide();
-        this.toast.error(result.error.msg, 'Erro ao conectar');
-      }
-    });
+      .connect(this.infoRoom.roomName, this.infoRoom.user?.name)
+      .subscribe({
+        next: () => this.toast.success('Bem-vindo à sala ' + this.infoRoom.roomName.replace(/_/g, ' ')),
+        error: result => {
+
+          if (result.event === 'Connect') {
+            this.router.navigate(['/home']);
+          }
+          this.loading.hide();
+          this.toast.error(result.error.msg, 'Erro ao conectar');
+        }
+      });
 
     this.getRoom();
   }
@@ -62,6 +69,17 @@ export class RoomComponent implements OnInit {
         this.players = this.room
           ? this.room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false }))
           : [];
+
+
+        const lastTask = this.room?.tasks[this.room.tasks.length - 1];
+        const playerCurrentVote = lastTask?.votes?.find(vote => vote.user.uuid === this.infoRoom.user.uuid);
+
+        if (playerCurrentVote) {
+          const vote = this.votes.find(voteCard => voteCard.value === playerCurrentVote.votting);
+          vote.isSelected = true;
+          vote.update();
+        }
+
 
         this.loading.hide();
       },
@@ -92,7 +110,29 @@ export class RoomComponent implements OnInit {
   }
 
   addTask() {
-    this.dialog.open(TaskCreateComponent);
+    const component = this.dialog.open(TaskCreateComponent);
+    component.componentInstance.roomStorage = this.infoRoom;
   }
 
+  onVote(voteEvent: { value: number, isSelected: boolean }) {
+    this.votes
+      .filter(voteCard => voteCard.value !== voteEvent.value)
+      .filter(voteCard => voteCard.isSelected)
+      .forEach(voteCard => {
+        voteCard.isSelected = false;
+        voteCard.update();
+      });
+  }
+
+  flipVotes() {
+    const room = this.storage.getObject<IRoom>('room');
+
+    if (room.task?.id) {
+      this.roomEvents.sendFlipVotes({
+        roomName: room.roomName,
+        taskId: room.task?.id
+      });
+      this.toast.show('Virando cartas');
+    }
+  }
 }

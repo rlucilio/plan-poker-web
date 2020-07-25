@@ -55,4 +55,8 @@ export class SocketService {
     this.socket = null;
   }
 
+  emitEvent<T>(key: string, params: T): void {
+    this.socket.emit(key, params);
+  }
+
 }
