@@ -66,6 +66,7 @@ export interface IGetLastTask {
         user: {
             idSocket: string;
             name: string;
+            uuid: string;
         },
         votting?: number;
     }[];

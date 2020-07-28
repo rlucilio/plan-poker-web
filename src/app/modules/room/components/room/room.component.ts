@@ -25,6 +25,7 @@ export class RoomComponent implements OnInit {
   players: {
     idSocket: string;
     name: string;
+    uuid: string;
     voted?: boolean;
   }[];
 
@@ -67,7 +68,7 @@ export class RoomComponent implements OnInit {
         this.room = response;
 
         this.players = this.room
-          ? this.room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false }))
+          ? this.room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false, uuid: user.uuid }))
           : [];
 
 
@@ -100,7 +101,7 @@ export class RoomComponent implements OnInit {
 
   changeTask(task: IGetLastTask) {
     task?.votes?.forEach(vote => {
-      const player = this.players?.find(plr => plr.idSocket === vote.user.idSocket);
+      const player = this.players?.find(plr => plr.uuid === vote.user.uuid);
 
       if (player) {
         player.voted = true;
@@ -133,6 +134,18 @@ export class RoomComponent implements OnInit {
         taskId: room.task?.id
       });
       this.toast.show('Virando cartas');
+    }
+  }
+
+  resetVotes() {
+    const room = this.storage.getObject<IRoom>('room');
+
+    if (room.task?.id) {
+      this.roomEvents.resetVotes({
+        roomName: room.roomName,
+        taskId: room.task?.id
+      });
+      this.toast.show('Task resetada cartas');
     }
   }
 }

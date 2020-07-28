@@ -21,7 +21,7 @@ interface IVoteTask {
   taskId: string;
 }
 
-interface IFlipVotes {
+interface IRequestsVotes {
   roomName: string;
   taskId: string;
 }
@@ -133,9 +133,15 @@ export class RoomEventsService {
     }
   }
 
-  sendFlipVotes(flipVotes: IFlipVotes) {
+  sendFlipVotes(flipVotes: IRequestsVotes) {
     if (flipVotes && flipVotes.taskId) {
       this.socketService.emitEvent('flip_votes', flipVotes);
+    }
+  }
+
+  resetVotes(resetVotes: IRequestsVotes){
+    if (resetVotes && resetVotes.taskId) {
+      this.socketService.emitEvent('reset_votes', resetVotes);
     }
   }
 }
