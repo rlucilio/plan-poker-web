@@ -6,10 +6,10 @@ export enum EventsRoom {
     newObserver = 'new_observer',
     newVote = 'new_vote',
     voteAfterReveal = 'vote_after_reveal',
-    allVotes = 'all_votes',
     allUserVote = 'all_user_votes',
     flipVotesResult = 'flip_votes_result',
     userDisconnected = 'user_disconnected',
     error = 'error_in_room',
-    error_socket = 'error'
+    error_socket = 'error',
+    resetTask = 'reset_task'
 }

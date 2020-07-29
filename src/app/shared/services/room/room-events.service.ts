@@ -6,6 +6,7 @@ import { Subscription, Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { tap, map, switchMap, take } from 'rxjs/operators';
 import { IRoom } from '../../models/room';
 import { v4 as uuidv4 } from 'uuid';
+import { IDisconnectUserReturn, IReturnFlipVote, IReturnTask, IReturnUserEvent, IReturnVote } from './models/eventsRoom.model';
 
 interface ICreateTask {
   roomName: string;
@@ -92,10 +93,10 @@ export class RoomEventsService {
     );
   }
 
-  get onConnectUser(): Observable<{ msg: string, user: string, socketId: string }> {
+  get onConnectUser(): Observable<IReturnUserEvent> {
     return this.subjectConnect.pipe(
       switchMap(() => this.socketService.fromEvent(EventsRoom.joinRoom).pipe(
-        tap((response: { msg: string, user: string, socketId: string }) => {
+        tap((response: IReturnUserEvent) => {
           const room = this.storage.getObject<IRoom>('room');
 
           room.user = {
@@ -108,6 +109,51 @@ export class RoomEventsService {
         }),
       ))
     );
+  }
+
+  get onReturnUser(): Observable<IReturnUserEvent> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnUserEvent>(EventsRoom.returnRoom)));
+  }
+
+  get onTimeoutFlipCards(): Observable<IReturnTask> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnTask>(EventsRoom.timeoutFlipCards)));
+  }
+
+  get onNewTask(): Observable<IReturnTask> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnTask>(EventsRoom.newTask)));
+  }
+
+  get onVote(): Observable<IReturnVote> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnVote>(EventsRoom.newVote)));
+  }
+
+  get onVoteAfterReveal(): Observable<IReturnVote> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnVote>(EventsRoom.voteAfterReveal)));
+  }
+
+  get onAllUserVoted(): Observable<void> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<void>(EventsRoom.allUserVote)));
+  }
+
+  get onFlip(): Observable<IReturnFlipVote> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnFlipVote>(EventsRoom.flipVotesResult)));
+  }
+
+  get onUserDisconnect(): Observable<IDisconnectUserReturn> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IDisconnectUserReturn>(EventsRoom.userDisconnected)));
+  }
+
+  get onResetTask(): Observable<void> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<void>(EventsRoom.resetTask)));
   }
 
   sendCreateTask(params: ICreateTask) {
@@ -139,7 +185,7 @@ export class RoomEventsService {
     }
   }
 
-  resetVotes(resetVotes: IRequestsVotes){
+  resetVotes(resetVotes: IRequestsVotes) {
     if (resetVotes && resetVotes.taskId) {
       this.socketService.emitEvent('reset_votes', resetVotes);
     }
