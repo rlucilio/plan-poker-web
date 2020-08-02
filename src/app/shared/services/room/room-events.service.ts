@@ -39,8 +39,12 @@ export class RoomEventsService {
     private storage: StorageService,
   ) { }
 
+  reconnect(): boolean {
+    return this.socketService.connect();
+  }
+
   connect(room: string, nameUser?: string): Observable<boolean> {
-    let roomStorage = this.storage.getObject<IRoom>('room');
+    let roomStorage =  this.storage.getObject<IRoom>('room');
     const uuidStorage = this.storage.getValue('uuid');
     const uuid = uuidStorage ? uuidStorage : uuidv4();
 
@@ -111,6 +115,16 @@ export class RoomEventsService {
     );
   }
 
+  get onJoinUser(): Observable<IReturnUserEvent> {
+    return this.subjectConnect
+    .pipe(switchMap(() => this.socketService.fromEvent<IReturnUserEvent>(EventsRoom.joinRoom)));
+  }
+
+  get onJoinObserver(): Observable<IReturnUserEvent> {
+    return this.subjectConnect
+    .pipe(switchMap(() => this.socketService.fromEvent<IReturnUserEvent>(EventsRoom.newObserver)));
+  }
+
   get onReturnUser(): Observable<IReturnUserEvent> {
     return this.subjectConnect
       .pipe(switchMap(() => this.socketService.fromEvent<IReturnUserEvent>(EventsRoom.returnRoom)));
@@ -165,6 +179,8 @@ export class RoomEventsService {
   private sendError(result: any) {
     console.log('Error -> ', result);
     this.subjectConnect.error(result);
+    this.subjectConnect.unsubscribe();
+    this.subjectConnect = new BehaviorSubject<boolean>(false);
 
     if (result?.event === 'Connect') {
       this.socketService.clear();

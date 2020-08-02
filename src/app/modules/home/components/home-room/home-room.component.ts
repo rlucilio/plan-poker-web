@@ -89,6 +89,7 @@ export class HomeRoomComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     this.loading.show();
     this.router.navigate(['/room', room]);
+    this.roomService.disconnect();
   }
 
   private showWarning(field: string) {

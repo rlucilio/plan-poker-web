@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   socket: {
-    baseUrl: 'http://localhost:3000'
+    baseUrl: 'http://localhost:3001'
   },
   api: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3001',
     tasks: '/task',
     room: '/room',
     user: '/user'

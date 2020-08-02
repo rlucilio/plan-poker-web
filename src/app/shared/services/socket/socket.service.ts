@@ -37,11 +37,13 @@ export class SocketService {
   connect() {
     if (this.socket) {
       this.socket.connect();
+      return true;
     }
+    return false;
   }
 
   disconnect() {
-    if (this.socket) {
+    if (this.socket && this.socket.connected) {
       this.socket.removeAllListeners();
       this.socket.disconnect();
     }

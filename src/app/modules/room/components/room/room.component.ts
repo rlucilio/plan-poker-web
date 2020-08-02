@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, ContentChild, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { IRoom } from 'src/app/shared/models/room';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { IGetRoomResponse, IGetLastTask } from 'src/app/shared/services/room/models/provider-room-responses';
@@ -17,7 +18,8 @@ import { VoteCardComponent } from '../vote-card/vote-card.component';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, OnDestroy {
+  private subs: Subscription[] = [];
   @ViewChildren(UserCardComponent) playersCards: UserCardComponent[];
   @ViewChildren(VoteCardComponent) votes: VoteCardComponent[];
   room: IGetRoomResponse;
@@ -36,59 +38,125 @@ export class RoomComponent implements OnInit {
     private router: Router,
     private storage: StorageService,
     private roomEvents: RoomEventsService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) { }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.roomEvents.disconnect();
+  }
 
   ngOnInit(): void {
     this.infoRoom = this.storage.getObject<IRoom>('room');
 
-    this.roomEvents.disconnect();
-
-    this.roomEvents
-      .connect(this.infoRoom.roomName, this.infoRoom.user?.name)
-      .subscribe({
-        next: () => this.toast.success('Bem-vindo à sala ' + this.infoRoom.roomName.replace(/_/g, ' ')),
-        error: result => {
-
-          if (result.event === 'Connect') {
-            this.router.navigate(['/home']);
+    if (this.roomEvents.reconnect()) {
+      this.getRoom();
+    } else {
+      this.subs.push(this.roomEvents
+        .connect(this.infoRoom.roomName, this.infoRoom.user?.name)
+        .subscribe({
+          next: () => this.getRoom(),
+          error: result => {
+            if (result.event === 'Connect') {
+              this.router.navigate(['/home']);
+            }
+            this.loading.hide();
+            this.toast.error(result.error.msg, 'Erro ao conectar');
           }
-          this.loading.hide();
-          this.toast.error(result.error.msg, 'Erro ao conectar');
-        }
-      });
+        }));
+    }
 
-    this.getRoom();
+    this.subscribeJoinUser();
   }
 
+  private subscribeJoinUser() {
+    this.subs.push(this.roomEvents.onJoinUser.subscribe({
+      next: result => {
+        const newPlayer = this.room.users?.find(player => player.uuid === result.uuid);
+        if (!newPlayer) {
+          this.room?.users.push({
+            idSocket: result.socketId,
+            name: result.user,
+            uuid: result.uuid
+          });
+        } else {
+          newPlayer.idSocket = result.socketId;
+          newPlayer.name = result.user;
+        }
+        this.setPlayers(this.room);
+      },
+      error: err => this.printErrorInEvent('Erro no evento, usuário entrou na sala.', err)
+    }));
 
-  private getRoom() {
-    this.roomService.getRoom(this.infoRoom.roomName).subscribe({
-      next: response => {
-        this.room = response;
+    this.subs.push(this.roomEvents.onReturnUser.subscribe({
+      error: err => this.printErrorInEvent('Erro no evento, usuário retornou à sala.', err),
+      next: result => {
+        const newPlayer = this.room.users?.find(player => player.uuid === result.uuid);
+        if (newPlayer) {
+          newPlayer.idSocket = result.socketId;
+          newPlayer.name = result.user;
+          this.setPlayers(this.room);
+        }
+      }
+    }));
 
-        this.players = this.room
-          ? this.room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false, uuid: user.uuid }))
-          : [];
+    this.subs.push(this.roomEvents.onJoinObserver.subscribe({
+      error: err => this.printErrorInEvent('Erro no evento, novo observador.', err),
+      next: () => {
+        this.subs.push(this.roomService.getRoom(this.infoRoom.roomName).subscribe(response => {
+          this.room.observers = response.observers;
+        }));
+      }
+    }));
 
-
-        const lastTask = this.room?.tasks[this.room.tasks.length - 1];
-        const playerCurrentVote = lastTask?.votes?.find(vote => vote.user.uuid === this.infoRoom.user.uuid);
-
-        if (playerCurrentVote) {
-          const vote = this.votes.find(voteCard => voteCard.value === playerCurrentVote.votting);
-          vote.isSelected = true;
-          vote.update();
+    this.subs.push(this.roomEvents.onUserDisconnect.subscribe({
+      error: err => this.printErrorInEvent('Erro no evento, desconectar usuário.', err),
+      next: result => {
+        if (result.uuid) {
+          this.room.users = this.room.users.filter(usr => usr.uuid !== result.uuid);
         }
 
+        this.roomService.getRoom(this.infoRoom.roomName).subscribe(room => {
+          this.room.observers = room.observers;
+        });
+        this.setPlayers(this.room);
+      }
+    }));
+  }
 
+  private printErrorInEvent(msg: string, err: any) {
+    console.log(err);
+    this.toast.error(msg);
+  }
+
+  private getRoom() {
+    this.subs.push(this.roomService.getRoom(this.infoRoom.roomName).subscribe({
+      next: response => {
+        this.room = response;
+        this.setPlayers(response);
         this.loading.hide();
       },
       error: () => {
         this.router.navigate(['/home']);
         this.loading.hide();
       }
-    });
+    }));
+  }
+
+  private setPlayers(room: IGetRoomResponse) {
+    this.players = room
+      ? room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false, uuid: user.uuid }))
+      : [];
+
+    const lastTask = room?.tasks[room.tasks.length - 1];
+    const playerCurrentVote = lastTask?.votes?.find(vote => vote.user.uuid === this.infoRoom.user.uuid);
+
+    if (playerCurrentVote) {
+      const vote = this.votes.find(voteCard => voteCard.value === playerCurrentVote.votting);
+      vote.isSelected = true;
+      vote.update();
+    }
+    this.playersCards?.forEach(playerCard => playerCard.update());
   }
 
   get title(): string {

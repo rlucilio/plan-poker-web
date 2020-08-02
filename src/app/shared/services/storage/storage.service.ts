@@ -8,7 +8,7 @@ export class StorageService {
   constructor() { }
 
   setValue(key: string, value: any) {
-    if (!value || !key) {
+    if (!key) {
       throw new Error('Params invalid');
     }
 
