@@ -116,8 +116,8 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.room.users = this.room.users.filter(usr => usr.uuid !== result.uuid);
         }
 
-        this.roomService.getRoom(this.infoRoom.roomName).subscribe(room => {
-          this.room.observers = room.observers;
+        this.roomService.getObservers(this.infoRoom.roomName).subscribe(obs => {
+          this.room.observers = obs;
         });
         this.setPlayers(this.room);
       }
@@ -130,7 +130,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   private getRoom() {
-    this.subs.push(this.roomService.getRoom(this.infoRoom.roomName).subscribe({
+    this.subs.push(this.roomService.getRoom(this.infoRoom.roomName, this.infoRoom.user.uuid).subscribe({
       next: response => {
         this.room = response;
         this.setPlayers(response);
@@ -149,12 +149,28 @@ export class RoomComponent implements OnInit, OnDestroy {
       : [];
 
     const lastTask = room?.tasks[room.tasks.length - 1];
-    const playerCurrentVote = lastTask?.votes?.find(vote => vote.user.uuid === this.infoRoom.user.uuid);
 
-    if (playerCurrentVote) {
-      const vote = this.votes.find(voteCard => voteCard.value === playerCurrentVote.votting);
+    lastTask?.votes.forEach(vote => {
+      const playerVote = this.players.find(player => player.uuid === vote.user.uuid);
+
+      if (playerVote) {
+        playerVote.voted = true;
+      }
+
+    });
+
+    const playerCurrentVoted = lastTask?.votes?.find(vote => vote.user.uuid === this.infoRoom.user.uuid);
+    if (playerCurrentVoted) {
+      const vote = this.votes.find(voteCard => voteCard.value === playerCurrentVoted.votting);
       vote.isSelected = true;
       vote.update();
+
+      if (lastTask.resultVoting && !this.room.settingsRoom.changeVoteAfterReveal) {
+        this.votes.forEach(voteCurrent => {
+          voteCurrent.enable = false;
+          voteCurrent.update();
+        });
+      }
     }
     this.playersCards?.forEach(playerCard => playerCard.update());
   }
@@ -168,14 +184,33 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   changeTask(task: IGetLastTask) {
-    task?.votes?.forEach(vote => {
-      const player = this.players?.find(plr => plr.uuid === vote.user.uuid);
+    if (!task.votes.length) {
+      this.players.forEach(player => player.voted = false);
+      this.playersCards?.forEach(playerCard => playerCard.update());
+      this.votes.forEach(vote => {
+        vote.isSelected = false;
+        vote.enable = true;
+        vote.update();
+      });
+    } else {
+      task?.votes?.forEach(vote => {
+        const player = this.players?.find(plr => plr.uuid === vote.user.uuid);
 
-      if (player) {
-        player.voted = true;
+        if (player) {
+          player.voted = true;
+        }
+      });
+
+      if (task.resultVoting && !this.room.settingsRoom.changeVoteAfterReveal) {
+        this.votes.forEach(vote => {
+          vote.enable = false;
+          vote.update();
+        });
       }
-    });
-    this.playersCards?.forEach(playerCard => playerCard.update());
+
+      this.playersCards?.forEach(playerCard => playerCard.update());
+    }
+
   }
 
   addTask() {
@@ -213,7 +248,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         roomName: room.roomName,
         taskId: room.task?.id
       });
-      this.toast.show('Task resetada cartas');
+      this.toast.show('Reiniciando task');
     }
   }
 }

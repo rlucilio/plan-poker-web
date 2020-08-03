@@ -19,8 +19,9 @@ export class RoomProviderService {
     return this.http.get<IGetHistoryTask[]>(`${environment.api.baseUrl}${environment.api.tasks}/${room}/history`);
   }
 
-  getRoom(room: string): Observable<IGetRoomResponse> {
-    return this.http.get<IGetRoomResponse>(`${environment.api.baseUrl}${environment.api.room}/find/${room}`);
+  getRoom(room: string, user?: string): Observable<IGetRoomResponse> {
+    return this.http
+    .get<IGetRoomResponse>(`${environment.api.baseUrl}${environment.api.room}/find/${room}${user ? `?user=${user}` : ''}`);
   }
 
   getUsers(room: string): Observable<IGetUserResponse[]> {
@@ -33,5 +34,9 @@ export class RoomProviderService {
 
   createRoom(createRoom: ICreateRoomRequest): Observable<IGetRoomResponse>{
     return this.http.post<IGetRoomResponse>(`${environment.api.baseUrl}${environment.api.room}`, createRoom);
+  }
+
+  getObservers(room: string): Observable<{idSocket: string}[]> {
+    return this.http.get<{idSocket: string}[]>(`${environment.api.baseUrl}${environment.api.room}/${room}/observers`);
   }
 }

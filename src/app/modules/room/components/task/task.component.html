@@ -12,6 +12,6 @@
 
     <section class="main-task-result" *ngIf="task?.resultVoting" [ngClass]="{'card-result-reveal': task?.resultVoting}">
         <app-vote-card [typeCard]="'sword'" [value]="task?.resultVoting" class="card"></app-vote-card>
-        <p class="main-task-result-label">Resultado da Task</p>
+        <p class="main-task-result-label">{{labelResult}}</p>
     </section>
 </main>

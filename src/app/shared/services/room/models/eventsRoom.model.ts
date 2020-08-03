@@ -6,19 +6,17 @@ export interface IReturnUserEvent {
 }
 
 export interface IReturnTask {
-    event: string;
-    task: {
-        id: string;
-        title: string;
-        description: string;
-        value?: number;
-    };
+    id: string;
+    title: string;
+    description: string;
+    value?: number;
 }
 
 export interface IReturnVote {
     name: string;
     socketId: string;
     uuid: string;
+    votting: number | null;
 }
 
 export interface IReturnFlipVote {
@@ -32,7 +30,8 @@ export interface IReturnFlipVote {
         votes: Array<{
             userName: string;
             userId: string;
-            vote: number
+            vote: number;
+            uuid: string;
         }>
     };
 }

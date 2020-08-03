@@ -23,6 +23,7 @@ export class VoteCardComponent {
     isSelected: boolean
   }>();
   isSelected = false;
+  enable = true;
 
   constructor(
     private element: ElementRef,
@@ -33,14 +34,19 @@ export class VoteCardComponent {
 
   @HostListener('click')
   onClick() {
-    if (this.vote()) {
+    if (this.enable && this.vote()) {
       this.isSelected = !this.isSelected;
       this.update();
       this.cardSelected.emit({
         isSelected: this.isSelected,
         value: this.value
       });
+    } else {
+      if (!this.enable) {
+        this.toast.show('Não é possível alterar o voto');
+      }
     }
+
   }
 
   update() {

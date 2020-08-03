@@ -53,7 +53,11 @@ export class RoomService {
     .pipe(map(room => room.name));
   }
 
-  getRoom(roomName: string): Observable<IGetRoomResponse> {
-    return this.roomProvider.getRoom(roomName);
+  getRoom(roomName: string, user?: string): Observable<IGetRoomResponse> {
+    return this.roomProvider.getRoom(roomName, user);
+  }
+
+  getObservers(roomName: string): Observable<{idSocket: string}[]> {
+    return this.roomProvider.getObservers(roomName);
   }
 }

@@ -130,9 +130,9 @@ export class RoomEventsService {
       .pipe(switchMap(() => this.socketService.fromEvent<IReturnUserEvent>(EventsRoom.returnRoom)));
   }
 
-  get onTimeoutFlipCards(): Observable<IReturnTask> {
+  get onUserDisconnect(): Observable<IDisconnectUserReturn> {
     return this.subjectConnect
-      .pipe(switchMap(() => this.socketService.fromEvent<IReturnTask>(EventsRoom.timeoutFlipCards)));
+      .pipe(switchMap(() => this.socketService.fromEvent<IDisconnectUserReturn>(EventsRoom.userDisconnected)));
   }
 
   get onNewTask(): Observable<IReturnTask> {
@@ -140,9 +140,19 @@ export class RoomEventsService {
       .pipe(switchMap(() => this.socketService.fromEvent<IReturnTask>(EventsRoom.newTask)));
   }
 
+  get onResetTask(): Observable<void> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<void>(EventsRoom.resetTask)));
+  }
+
   get onVote(): Observable<IReturnVote> {
     return this.subjectConnect
       .pipe(switchMap(() => this.socketService.fromEvent<IReturnVote>(EventsRoom.newVote)));
+  }
+
+  get onFlip(): Observable<IReturnFlipVote> {
+    return this.subjectConnect
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnFlipVote>(EventsRoom.flipVotesResult)));
   }
 
   get onVoteAfterReveal(): Observable<IReturnVote> {
@@ -155,20 +165,11 @@ export class RoomEventsService {
       .pipe(switchMap(() => this.socketService.fromEvent<void>(EventsRoom.allUserVote)));
   }
 
-  get onFlip(): Observable<IReturnFlipVote> {
+  get onTimeoutFlipCards(): Observable<IReturnTask> {
     return this.subjectConnect
-      .pipe(switchMap(() => this.socketService.fromEvent<IReturnFlipVote>(EventsRoom.flipVotesResult)));
+      .pipe(switchMap(() => this.socketService.fromEvent<IReturnTask>(EventsRoom.timeoutFlipCards)));
   }
 
-  get onUserDisconnect(): Observable<IDisconnectUserReturn> {
-    return this.subjectConnect
-      .pipe(switchMap(() => this.socketService.fromEvent<IDisconnectUserReturn>(EventsRoom.userDisconnected)));
-  }
-
-  get onResetTask(): Observable<void> {
-    return this.subjectConnect
-      .pipe(switchMap(() => this.socketService.fromEvent<void>(EventsRoom.resetTask)));
-  }
 
   sendCreateTask(params: ICreateTask) {
     if (params.roomName && params.taskName) {
