@@ -108,8 +108,27 @@ export class TaskComponent implements OnInit, OnDestroy {
     }));
 
     this.subs.push(this.roomEvents.onVoteAfterReveal.subscribe({
-      error: err => this.printErrorInEvent('Erro no evento de flip de task', err),
+      error: err => this.printErrorInEvent('Erro no evento de voto depois do resultado de task', err),
       next: vote => this.setVote(vote)
+    }));
+
+    this.subs.push(this.roomEvents.onAllUserVoted.subscribe({
+      error: err => this.printErrorInEvent('Erro no evento todo usuário votarão de task', err),
+      next: () => {
+        this.subs.push(this.roomProvider.getLastTask(this.infoRoom.roomName)
+          .subscribe(task => {
+            this.task.resultVoting = task.resultVoting;
+
+            task.votes.forEach(vote => {
+              const playerCurrent = this.task.votes.find(voteCurrent => voteCurrent.user.uuid === vote.user.uuid);
+
+              if (playerCurrent) {
+                playerCurrent.votting = vote.votting;
+              }
+            });
+            this.cdr.detectChanges();
+          }));
+      }
     }));
 
   }
@@ -130,10 +149,10 @@ export class TaskComponent implements OnInit, OnDestroy {
       userVoted.votting = newVote.votting;
 
       this.subs.push(this.roomProvider.getLastTask(this.infoRoom.roomName)
-      .subscribe(task => {
-        this.task.resultVoting = task.resultVoting;
-        this.cdr.detectChanges();
-      }));
+        .subscribe(task => {
+          this.task.resultVoting = task.resultVoting;
+          this.cdr.detectChanges();
+        }));
     }
   }
 
