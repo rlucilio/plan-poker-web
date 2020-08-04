@@ -29,7 +29,8 @@ export class SocketService {
     }
 
     this.socket = io(environment.socket.baseUrl, {
-      query
+      query,
+      transports: ['websocket']
     });
 
   }
