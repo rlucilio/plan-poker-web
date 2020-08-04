@@ -10,7 +10,7 @@ import { RoomEventsService } from 'src/app/shared/services/room/room-events.serv
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { TaskCreateComponent } from '../task-create/task-create.component';
-import { TaskHistoryComponent } from '../task-history/task-history.component';
+
 import { UserCardComponent } from '../user-card/user-card.component';
 import { VoteCardComponent } from '../vote-card/vote-card.component';
 
@@ -23,7 +23,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   @ViewChildren(UserCardComponent) playersCards: UserCardComponent[];
   @ViewChildren(VoteCardComponent) votes: VoteCardComponent[];
-  @ViewChild(TaskHistoryComponent) taskHistory: TaskHistoryComponent;
+
   room: IGetRoomResponse;
   private infoRoom: IRoom;
   players: {
@@ -220,11 +220,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       }
 
       this.playersCards?.forEach(playerCard => playerCard.update());
-    }
-
-
-    if (this.taskHistory) {
-      this.taskHistory.update();
     }
   }
 
