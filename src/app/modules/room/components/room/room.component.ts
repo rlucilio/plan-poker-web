@@ -74,7 +74,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private subscribeJoinUser() {
     this.subs.push(this.roomEvents.onJoinUser.subscribe({
       next: result => {
-        const newPlayer = this.room.users?.find(player => player.uuid === result.uuid);
+        const newPlayer = this.room?.users?.find(player => player.uuid === result.uuid);
         if (!newPlayer) {
           this.room?.users.push({
             idSocket: result.socketId,
@@ -93,7 +93,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.subs.push(this.roomEvents.onReturnUser.subscribe({
       error: err => this.printErrorInEvent('Erro no evento, usuário retornou à sala.', err),
       next: result => {
-        const newPlayer = this.room.users?.find(player => player.uuid === result.uuid);
+        const newPlayer = this.room?.users?.find(player => player.uuid === result.uuid);
         if (newPlayer) {
           newPlayer.idSocket = result.socketId;
           newPlayer.name = result.user;
@@ -114,8 +114,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.subs.push(this.roomEvents.onUserDisconnect.subscribe({
       error: err => this.printErrorInEvent('Erro no evento, desconectar usuário.', err),
       next: result => {
-        if (result.uuid) {
-          this.room.users = this.room.users.filter(usr => usr.uuid !== result.uuid);
+        if (result.uuid && this.room && this.room.users && this.room.users.length) {
+          this.room.users = this.room?.users?.filter(usr => usr.uuid !== result.uuid);
         }
 
         this.roomService.getObservers(this.infoRoom.roomName).subscribe(obs => {
