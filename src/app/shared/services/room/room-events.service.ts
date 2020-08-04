@@ -76,8 +76,11 @@ export class RoomEventsService {
   }
 
   disconnect() {
-    this.storage.clear();
     this.socketService.disconnect();
+  }
+
+  clear() {
+    this.storage.clear();
   }
 
   get onConnectObserver(): Observable<boolean> {

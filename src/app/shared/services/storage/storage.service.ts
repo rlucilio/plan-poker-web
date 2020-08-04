@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  private storage = window.localStorage;
+  private storage = window.sessionStorage;
   constructor() { }
 
   setValue(key: string, value: any) {

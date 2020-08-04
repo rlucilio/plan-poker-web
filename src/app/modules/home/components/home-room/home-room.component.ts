@@ -57,7 +57,7 @@ export class HomeRoomComponent implements OnInit, OnDestroy {
   }
 
   private connect(room: string, user?: string) {
-    this.roomService.disconnect();
+    this.roomService.clear();
     this.subscriptions.push(this.roomService.connect(room, user)
       .subscribe({
         next: result => {
