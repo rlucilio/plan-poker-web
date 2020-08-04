@@ -148,7 +148,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       ? room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false, uuid: user.uuid }))
       : [];
 
-    if (!this.players.length) {
+    if (!this.players.find(plr => plr.uuid === this.infoRoom.user.uuid)) {
       this.players.push({
         name: this.infoRoom.user.name,
         idSocket: this.infoRoom.user.socketID,
