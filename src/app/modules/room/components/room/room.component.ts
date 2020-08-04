@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { userInfo } from 'os';
 import { Subscription } from 'rxjs';
 import { IRoom } from 'src/app/shared/models/room';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
