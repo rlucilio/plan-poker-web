@@ -41,9 +41,7 @@
             <section class="main-body" [ngClass]="{'full': !isPlayer}">
                 <main>
                     <section class="task" [ngClass]="{'full': !room?.settingsRoom?.keepHistory}">
-                        <app-task (changeTask)="changeTask($event)" 
-                        [enableTimeout]="room?.settingsRoom?.enableFlipCardsTimeout"
-                        [timeoutFlip]="room?.settingsRoom?.timeoutFlipCards"
+                        <app-task (changeTask)="changeTask($event)"
                         [typeVote]="room?.settingsRoom?.typeRoom"
                         ></app-task>
                     </section>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { of, Subscription } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IRoom } from 'src/app/shared/models/room';
 import { IReturnVote } from 'src/app/shared/services/room/models/eventsRoom.model';
 import { IGetLastTask } from 'src/app/shared/services/room/models/provider-room-responses';
@@ -18,12 +18,9 @@ import { StorageService } from 'src/app/shared/services/storage/storage.service'
 export class TaskComponent implements OnInit, OnDestroy {
   infoRoom: IRoom;
   task: IGetLastTask;
-
   private subs: Subscription[] = [];
 
   @Output() changeTask = new EventEmitter<IGetLastTask>();
-  @Input() timeoutFlip: number;
-  @Input() enableTimeout: boolean;
   @Input() typeVote: string;
 
   constructor(
@@ -87,6 +84,27 @@ export class TaskComponent implements OnInit, OnDestroy {
       next: newVote => {
         this.setVote(newVote);
         this.emitTask();
+      }
+    }));
+
+    this.subs.push(this.roomEvents.onTimeoutFlipCards.subscribe({
+      error: err => this.printErrorInEvent('Erro no evento de timeout da task', err),
+      next: timeout => {
+        this.task.resultVoting = timeout.value;
+
+        this.subs.push(this.roomProvider.getLastTask(this.infoRoom.roomName)
+          .subscribe(task => {
+            this.task.resultVoting = task.resultVoting;
+
+            task.votes.forEach(vote => {
+              const playerCurrent = this.task.votes.find(voteCurrent => voteCurrent.user.uuid === vote.user.uuid);
+
+              if (playerCurrent) {
+                playerCurrent.votting = vote.votting;
+              }
+            });
+            this.cdr.detectChanges();
+          }));
       }
     }));
 

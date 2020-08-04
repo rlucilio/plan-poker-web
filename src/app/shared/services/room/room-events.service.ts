@@ -76,6 +76,7 @@ export class RoomEventsService {
   }
 
   disconnect() {
+    this.storage.clear();
     this.socketService.disconnect();
   }
 

@@ -98,5 +98,8 @@
       }
     }
   },
-  "defaultProject": "planning-poker-web"
+  "defaultProject": "planning-poker-web",
+  "cli": {
+    "analytics": false
+  }
 }
