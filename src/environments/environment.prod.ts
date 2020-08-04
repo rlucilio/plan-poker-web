@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
   socket: {
-    baseUrl: 'http://localhost:3001'
+    baseUrl: 'https://poker-plan-back.herokuapp.com'
   },
   api: {
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://poker-plan-back.herokuapp.com',
     tasks: '/task',
     room: '/room',
     user: '/user'
