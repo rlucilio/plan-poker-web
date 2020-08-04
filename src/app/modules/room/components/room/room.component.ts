@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { userInfo } from 'os';
 import { Subscription } from 'rxjs';
 import { IRoom } from 'src/app/shared/models/room';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
@@ -147,6 +148,15 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.players = room
       ? room.users.map(user => ({ idSocket: user.idSocket, name: user.name, voted: false, uuid: user.uuid }))
       : [];
+
+    if (!this.players.length) {
+      this.players.push({
+        name: this.infoRoom.user.name,
+        idSocket: this.infoRoom.user.socketID,
+        uuid: this.infoRoom.user.uuid,
+        voted: false
+      });
+    }
 
     const lastTask = room?.tasks[room.tasks.length - 1];
 
