@@ -9,13 +9,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v2
-      - name: install angular
-        run: sudo npm i -g @angular/cli
-      - uses: amondnet/vercel-action@v19
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod'
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} 
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./
+        
+      - name: Install Node
+      - uses: actions/setup-node@v1
+        with: 
+          node-version: '12.x'
+          
+      - name: Install Vercel
+        run: sudo npm i -g vercel
+        
+      - name: Set Envs
+        env:
+          VERCEL_ORG_ID: '{{ secrets.VERCEL_ORG_ID }}'
+          VERCEL_PROJECT_ID: '{{ secrets.VERCEL_PROJECT_ID }}'
+        
+      - name: Deploy vercel
+        run: vercel -t {{ secrets.VERCEL_TOKEN }}
+
+
