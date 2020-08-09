@@ -17,7 +17,7 @@ jobs:
             ${{ runner.os }}-node-
             
       - name: build
-        run: npx ng build --prod
+        run: npm run build --prod
         
       - uses: amondnet/vercel-action@v19
         with:
