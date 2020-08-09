@@ -1,19 +1,19 @@
-name: CI/CD
+name: Deploy
+
 on:
   push:
-    branches:
+    branches: 
       - master
-
+    
 jobs:
-  Deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build
-        run: npm i && npm run build --prod
-        
       - uses: amondnet/vercel-action@v19
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          vercel-args: '--prod' #Optional
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required 
+          working-directory: ./
