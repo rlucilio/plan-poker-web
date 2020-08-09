@@ -21,6 +21,6 @@ jobs:
         run: sudo npm i -g vercel
         
       - name: Deploy vercel
-        run: vercel --token oP8Q2bBTdAue6WGn5bx0AQtl
+        run: vercel --token oP8Q2bBTdAue6WGn5bx0AQtl --prod
 
 
