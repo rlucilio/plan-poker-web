@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install angular
-        run: npm i -g @angular/cli
+        run: sudo npm i -g @angular/cli
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
