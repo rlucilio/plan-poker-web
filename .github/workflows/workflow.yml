@@ -12,11 +12,8 @@ jobs:
       - name: build
         run: npm i && npm run build --prod
         
-      - uses: ngduc/vercel-deploy-action@master
+      - uses: amondnet/vercel-action@v19
         with:
-          vercel-cli: vercel
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod' #Optional
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required 
-          working-directory: .
