@@ -8,6 +8,10 @@
     box-sizing: border-box;
     overflow: hidden;
 
+    @media (max-width: 850px) {
+        padding: 5% 10%;
+    }
+
     &>.container {
         background-color: $collor-third;
         box-shadow: 0px 0px 79px 7px rgba($color: $background, $alpha: 0.75);
