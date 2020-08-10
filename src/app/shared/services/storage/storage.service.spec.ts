@@ -1,16 +1,54 @@
-import { TestBed } from '@angular/core/testing';
-
 import { StorageService } from './storage.service';
 
 describe('StorageService', () => {
-  let service: StorageService;
+  let storageService: StorageService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(StorageService);
+  const createService = () => {
+    storageService = new StorageService();
+  };
+
+  it('verify method setValue success scenario', () => {
+    const key = 'key';
+    const value = 'value';
+
+    createService();
+    storageService.setValue(key, value);
+
+    const result = window.sessionStorage.getItem(key);
+
+    expect(result).toEqual(value);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('verify method setValue error', () => {
+    const key = '';
+    const value = 'value';
+
+    createService();
+
+    expect(() => {
+      storageService.setValue(key, value);
+    }).toThrow('Params invalid');
+  });
+
+  it('verify method setObject success scenario', () => {
+    const key = 'key';
+    const value = { prop: 'value' };
+
+    createService();
+    storageService.setObject(key, value);
+    const result = window.sessionStorage.getItem(key);
+
+    expect(result).toEqual(JSON.stringify(value));
+  });
+
+  it('verify method setObject error', () => {
+    const key = '';
+    const value = { prop: 'value' };
+
+    createService();
+
+    expect(() => {
+      storageService.setObject(key, value);
+    }).toThrow('Params invalid');
   });
 });
