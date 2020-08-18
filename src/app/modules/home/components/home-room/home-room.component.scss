@@ -6,22 +6,28 @@
     width: 100%;
     height: 100%;
 
-    &>.main-form {
-        width: 35%;
+    @media (max-height: 600px) {
+        flex-direction: row;
+    }
 
-        @media (max-width: 850px) {
-            width: 80%;
-        }
+    .main {
+        width: 50%;
+        .main-form {
 
-        form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
+
+            @media (max-width: 850px) {
+                width: 80%;
+            }
+
+            form {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 
-    &>.footer-buttons {
-        width: 35%;
+    .footer-buttons {
 
         @media (max-width: 850px) {
             width: 80%;
