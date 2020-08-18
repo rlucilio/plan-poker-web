@@ -8,6 +8,14 @@
         &>.title {
             transform: translateY(-46px);
         }
+
+        @media (max-height: 600px) {
+            flex-direction: row;
+
+            &>.title {
+                transform: none
+            }
+        }
     }
 
     &>.logo-simple {
