@@ -41,6 +41,11 @@ export class TaskHistoryComponent implements OnInit, OnDestroy {
 
   private subscriptionEventsTask() {
     this.subs.push(this.roomEvents.onNewTask.subscribe(() => this.update()));
+    this.subs.push(this.roomEvents.onAllUserVoted.subscribe(() => this.update()));
+    this.subs.push(this.roomEvents.onFlip.subscribe(() => this.update()));
+    this.subs.push(this.roomEvents.onResetTask.subscribe(() => this.update()));
+    this.subs.push(this.roomEvents.onTimeoutFlipCards.subscribe(() => this.update()));
+    this.subs.push(this.roomEvents.onVoteAfterReveal.subscribe(() => this.update()));
   }
 
   update() {

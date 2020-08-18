@@ -24,6 +24,7 @@
         flex-direction: column;
 
         .main-task-history-list {
+            overflow-x: auto;
 
             .main-task-history-list-item {
                 display: flex;
@@ -40,6 +41,7 @@
 
                    &.main-task-history-list-item-hour{
                        color: map-get($map: $pallet-collors-primary, $key: 500);
+                       width: 85px;
                    }
                 }
             }
