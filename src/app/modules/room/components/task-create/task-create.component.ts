@@ -37,6 +37,10 @@ export class TaskCreateComponent implements OnInit {
       this.dialogRef.close();
     }
   }
+  
+  cancelTask() {
+    this.dialogRef.close();
+  }
 
   private createFormTask() {
     this.formTask = this.fb.group({
