@@ -21,6 +21,6 @@
 </main>
 
 <footer mat-dialog-actions class="task-create-dialog-footer">
-    <button mat-button>Cancelar</button>
+    <button mat-button (click)="cancelTask()">Cancelar</button>
     <button mat-button color="primary" [disabled]="!formTask.valid" (click)="createTask()">Criar task</button>
 </footer>
